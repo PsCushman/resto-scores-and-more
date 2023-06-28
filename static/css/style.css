@@ -2,7 +2,11 @@
     height: 600px; 
 }
 
+.leaflet-popup-content-wrapper {
+    background-color: #abd1c6;
+}
 .leaflet-popup-content {
+    background-color: #abd1c6;
     text-align: center;
     display: flex;
     flex-direction: column;
