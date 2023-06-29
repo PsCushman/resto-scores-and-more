@@ -1,1 +1,16 @@
-#map { height: 600px; }
+#map { 
+    height: 600px; 
+}
+
+.leaflet-popup-content-wrapper {
+    background-color: #abd1c6;
+}
+.leaflet-popup-content {
+    background-color: #abd1c6;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }

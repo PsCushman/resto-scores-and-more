@@ -14,6 +14,7 @@ let baseURL = "https://data.sfgov.org/resource/pyih-qa8i.json?";
 // Get the data with fetch.
 let markers = L.markerClusterGroup();
 
+// Get the data with fetch.
 fetch(baseURL)
   .then(response => response.json())
   .then(data => {
@@ -25,17 +26,32 @@ fetch(baseURL)
       // Get the latitude and longitude
       let latitude = parseFloat(restaurant.business_latitude);
       let longitude = parseFloat(restaurant.business_longitude);
-
+      let inspectionScore = restaurant.inspection_score;
+    
+      let scoreColor;
+      if (inspectionScore >= 90) {
+        scoreColor = 'green';
+      } else if (inspectionScore >= 75 && inspectionScore <= 89) {
+        scoreColor = 'yellow';
+      } else {
+        scoreColor = 'red';
+      }
+    
       // Check for valid latitude and longitude
       if (!isNaN(latitude) && !isNaN(longitude)) {
         // Create a marker and bind a popup
         let marker = L.marker([latitude, longitude])
-          .bindPopup(restaurant.business_name + '<br>' + restaurant.inspection_score);
+          .bindPopup(`<div style="text-align: center;">
+                       <strong style="font-size: 14px;">${restaurant.business_name}</strong><br>
+                       <strong>ADDRESS:</strong><br> ${restaurant.business_address}<br>
+                       <strong>INSPECTION SCORE:</strong><br> 
+                       <span style="font-size: 26px; background-color: ${scoreColor}; color: black; padding: 2px 5px; border-radius: 4px;">${restaurant.inspection_score}</span>
+                     </div>`);
         // Add the marker to the cluster group
         markers.addLayer(marker);
       }
     });
-
+    
     // Add the marker cluster group to the map
     myMap.addLayer(markers);
   });
