@@ -1,2 +1,2 @@
 # resto-scores-and-more
-Wash your hands you dirty animal!!!
+Wash your hands you filthy animal!!!
