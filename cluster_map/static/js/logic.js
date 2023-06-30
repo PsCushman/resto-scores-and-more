@@ -30,12 +30,19 @@ fetch(baseURL)
       let inspectionScore = restaurant.inspection_score;
 
       let scoreColor;
-      if (inspectionScore >= 90) {
+      let scoreLabel;
+      if (typeof inspectionScore === 'undefined' || isNaN(inspectionScore)) {
+        scoreColor = 'gray';
+        scoreLabel = 'Unrated';
+      } else if (inspectionScore >= 90) {
         scoreColor = 'green';
+        scoreLabel = inspectionScore;
       } else if (inspectionScore >= 75 && inspectionScore <= 89) {
         scoreColor = 'yellow';
+        scoreLabel = inspectionScore;
       } else {
         scoreColor = 'red';
+        scoreLabel = inspectionScore;
       }
 
       // Check for valid latitude and longitude
@@ -46,7 +53,7 @@ fetch(baseURL)
                        <strong style="font-size: 14px;">${restaurant.business_name}</strong><br>
                        <strong>ADDRESS:</strong><br> ${restaurant.business_address}<br>
                        <strong>INSPECTION SCORE:</strong><br> 
-                       <span style="font-size: 26px; background-color: ${scoreColor}; color: black; padding: 2px 5px; border-radius: 4px;">${restaurant.inspection_score}</span>
+                       <span style="font-size: 26px; background-color: ${scoreColor}; color: black; padding: 2px 5px; border-radius: 4px;">${scoreLabel}</span>
                      </div>`);
 
         // Add the marker to the array and the cluster group
@@ -70,8 +77,8 @@ fetch(baseURL)
     // Add the search control to the map
     myMap.addControl(controlSearch);
 
-    // Create the score filter control
-    var controlScores = L.control({ position: 'topright' });
+    // Create the legend control
+    var controlScores = L.control({ position: 'bottomright' });
 
     controlScores.onAdd = function (map) {
       var div = L.DomUtil.create('div', 'info legend');
@@ -81,20 +88,33 @@ fetch(baseURL)
       var scoreRanges = [
         { color: 'green', min: 90, max: Infinity },
         { color: 'yellow', min: 75, max: 89 },
-        { color: 'red', min: 0, max: 74 }
+        { color: 'red', min: 0, max: 74 },
+        { color: 'gray', min: 'Unrated', max: 'Unrated' }
       ];
 
-      // Create checkboxes for each score range
       scoreRanges.forEach(range => {
+        var label;
+        if (range.min === 'Unrated' && range.max === 'Unrated') {
+          label = range.min;
+        } else if (range.max === Infinity) {
+          label = range.min + '+';
+        } else {
+          label = range.min + ' - ' + range.max;
+        }
+
         div.innerHTML +=
           '<label><input type="checkbox" class="score-checkbox" value="' +
           range.color +
           '" checked>' +
-          range.min +
-          ' - ' +
-          (range.max === Infinity ? '∞' : range.max) +
+          label +
           '</label><br>';
       });
+
+      // Add some styling to the legend
+      div.style.padding = '2px';
+      div.style.backgroundColor = 'white';
+      div.style.border = '1px solid gray';
+      div.style.borderRadius = '5px';
 
       // Add event listener to handle checkbox changes
       div.addEventListener('change', function (event) {
