@@ -11,8 +11,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Store the API query variables.
 let baseURL = "https://data.sfgov.org/resource/pyih-qa8i.json?";
 // let url = baseURL + "$$app_token=" + apiToken;
-// Get the data with fetch.
-let markers = L.markerClusterGroup();
 
 // Get the data with fetch.
 fetch(baseURL)
@@ -27,7 +25,7 @@ fetch(baseURL)
       let latitude = parseFloat(restaurant.business_latitude);
       let longitude = parseFloat(restaurant.business_longitude);
       let inspectionScore = restaurant.inspection_score;
-    
+
       let scoreColor;
       if (inspectionScore >= 90) {
         scoreColor = 'green';
@@ -36,7 +34,7 @@ fetch(baseURL)
       } else {
         scoreColor = 'red';
       }
-    
+
       // Check for valid latitude and longitude
       if (!isNaN(latitude) && !isNaN(longitude)) {
         // Create a marker and bind a popup
@@ -51,7 +49,19 @@ fetch(baseURL)
         markers.addLayer(marker);
       }
     });
-    
+
     // Add the marker cluster group to the map
     myMap.addLayer(markers);
+
+    // Create the search control
+    var controlSearch = new L.Control.Search({
+      position: 'topright',
+      layer: markers,
+      initial: false,
+      zoom: 12,
+      marker: false
+    });
+
+    // Add the search control to the map
+    myMap.addControl(controlSearch);
   });
