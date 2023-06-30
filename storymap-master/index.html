@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <link type="text/css" rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">    
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-9 col-md-7 main">
+
+            <h1 class="page-header">SF Resturant Story</h1>
+
+            <section data-place="overview">
+                <p>From our map making exporlations, we found a bunch of fun and gross facts<p>
+            </section>
+
+            <section  data-place="good_hood">
+                <h2>Potrero Hill</h2>
+                <p>Good Hood</p>
+                <p>Good Hood</p>
+                <p>Good Hood</p>
+                <p>Good Hood</p>
+                <p>Good Hood</p>
+            </section>
+
+            <section  data-place="bad_hood">
+                <h2>The Sunset</h2>
+                <p>Bad Hood</p>
+                <p>Bad Hood</p>
+                <p>Bad Hood</p>
+                <p>Bad Hood</p>
+                <p>Bad Hood</p>
+            </section>
+
+            <section  data-place="sunflower">
+                <h2>Sunflower Resturant<h2>
+                <p>Sunflower had the lowest avg score over this period at around 56 percent</p>
+                <p>Wouldn't eat here!<p>
+                
+            </section>
+
+            <section  data-place="lees">
+                <h2>Lee's Resturant</h2>
+                <p>Gross Dude.</p>
+                <p>Gross Dude.</p>
+                <p>Gross Dude.</p>
+                <p>Gross Dude.</p>
+            </section>
+
+            <section  data-place="schools">
+                <h2>Schools</h2>
+                <p>Look School is important but it doesn't necessaryly have the best repuation for good food.</p>
+                <p>While it may not be good It is safe.</p>
+                <p>We found that out of the 159 spots with good inpections, 70+ were schools.</p>
+            </section>
+
+            <section data-place="peter">
+                <h2>Sts. Peter & Paul School</h2>
+                <p>Didn't do well.</p>
+                <p>Lot's of "incidents"</p>
+                <p>Lot's of "incidents"</p>
+                <p>Lot's of "incidents"</p>
+            </section>
+
+            <section data-place="alice">
+                <h2>Alice Fong Young's School</h2>
+                <p>She did the best.</p>
+                <p>She did the best.</p>
+                <p>She did the best.</p>
+                <p>She did the best.</p>
+            </section>
+        </div>
+
+        <div id="map" class="col-sm-3 col-md-5 sidebar">
+
+        </div>
+
+    </div>
+</div>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+ <!-- Leaflet JavaScript code -->
+ <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+ integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+ crossorigin=""></script>
+<!-- Marker cluster JavaScript code -->
+<script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.0.3/dist/leaflet.markercluster.js"></script>
+<!-- Marker cluster CSS -->
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css">
+<script src="https://code.jquery.com/jquery-3.7.0.js" type="text/javascript"></script>
+<script type="text/javascript" src="storymap.js"></script>
+<script type="text/javascript">
+    (function () {
+        'use strict';
+
+        var markers = {
+            overrview: {lat: 37.7749, lon: -122.4194, zoom: 12,},
+            good_hood: {lat: 37.7636, lon: -122.4200, zoom: 7},
+            bad_hood: {lat: 37.7467, lon: -122.4863, zoom: 7},
+            sunflower: {lat: 37.762647, lon: -122.397545, zoom: 7},
+            lees: {lat: 37.729455, lon: -122.386364, zoom: 7},
+            schools: {lat: 58.17993, lon: 8.12952, zoom: 7},
+            peter: {lat: 37.801278, lon: -122.410384, zoom: 7},
+            alice: {lat: 37.759386, lon: -122.469292, zoom: 7}
+        };
+
+        $('.main').storymap({markers: markers});
+    }());
+</script>
+</body>
+</html>
