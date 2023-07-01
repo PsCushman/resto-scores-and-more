@@ -10,7 +10,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Store the API query variables.
 let baseURL = "https://data.sfgov.org/resource/pyih-qa8i.json?";
-let neighborhoodURL = "https://data.sfgov.org/api/geospatial/pty2-tcw4?method=export&format=GeoJSON"; // Replace with the actual URL or file path of the neighborhood GeoJSON data.
+let neighborhoodURL = "https://data.sfgov.org/resource/6ia5-2f8k.json"; 
 
 // Fetch the neighborhood GeoJSON data
 fetch(neighborhoodURL)
@@ -50,15 +50,15 @@ fetch(neighborhoodURL)
             let neighborhood = feature.properties.neighborhood;
             let averageScore = averageScoresByNeighborhood[neighborhood].averageScore;
             let fillColor;
-
+          
             if (averageScore >= 90) {
               fillColor = 'green';
             } else if (averageScore >= 75 && averageScore <= 89) {
-              fillColor = 'yellow;
+              fillColor = 'yellow';
             } else {
               fillColor = 'red';
             }
-
+          
             return {
               fillColor: fillColor,
               color: 'black',
@@ -66,6 +66,7 @@ fetch(neighborhoodURL)
               fillOpacity: 0.6
             };
           },
+          
           onEachFeature: function (feature, layer) {
             let neighborhood = feature.properties.neighborhood;
             let averageScore = averageScoresByNeighborhood[neighborhood].averageScore;
