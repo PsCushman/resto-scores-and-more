@@ -9,77 +9,31 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(myMap);
 
 // Store the API query variables.
-let baseURL = "https://data.sfgov.org/resource/pyih-qa8i.json?";
-let neighborhoodURL = "https://data.sfgov.org/resource/6ia5-2f8k.json"; 
+let geoData = "https://data.sfgov.org/resource/6ia5-2f8k.geojson"; 
 
-// Fetch the neighborhood GeoJSON data
-fetch(neighborhoodURL)
+let geojson;
+// Fetch the GeoJSON data
+fetch(geoData)
   .then(response => response.json())
-  .then(neighborhoodData => {
-    // Create a data structure to store average inspection scores by neighborhood
-    let averageScoresByNeighborhood = {};
+  .then(data => {
+    // Create a choropleth layer based on the GeoJSON data
+    geojson = L.choropleth(data, {
+      valueProperty: 'Nob Hill', // Replace 'property_name' with the actual property name in your GeoJSON data that represents the values for the choropleth
+      scale: ["#ffffb2", "#b10026"], // Define the colors for the choropleth scale
+      steps: 5, // Define the number of color steps or ranges
+      mode: 'q', // Define the mode for determining the color ranges ('q' for quantile, 'e' for equidistant, or 'k' for k-means clustering)
+      style: {
+        color: '#fff', // Border color for the choropleth polygons
+        weight: 1, // Border weight for the choropleth polygons
+        fillOpacity: 0.8 // Opacity for the choropleth polygons
+      },
+      onEachFeature: function(feature, layer) {
+        // Add any desired interaction or information for each choropleth polygon
+        layer.bindPopup('Neighborhood: ' + feature.properties.name); // Replace 'name' with the actual property name in your GeoJSON data that represents the neighborhood name
+      }
+    });
 
-    // Fetch the restaurant data
-    fetch(baseURL)
-      .then(response => response.json())
-      .then(restaurantData => {
-        // Calculate average inspection scores by neighborhood
-        restaurantData.forEach(restaurant => {
-          let neighborhood = restaurant.neighborhood;
-          let inspectionScore = restaurant.inspection_score;
-
-          if (!averageScoresByNeighborhood[neighborhood]) {
-            averageScoresByNeighborhood[neighborhood] = {
-              totalScore: inspectionScore,
-              count: 1
-            };
-          } else {
-            averageScoresByNeighborhood[neighborhood].totalScore += inspectionScore;
-            averageScoresByNeighborhood[neighborhood].count++;
-          }
-        });
-
-        // Calculate the average score for each neighborhood
-        for (let neighborhood in averageScoresByNeighborhood) {
-          averageScoresByNeighborhood[neighborhood].averageScore = averageScoresByNeighborhood[neighborhood].totalScore / averageScoresByNeighborhood[neighborhood].count;
-        }
-
-        // Create the choropleth map layer
-        let geojsonLayer = L.geoJSON(neighborhoodData, {
-          style: function (feature) {
-            let neighborhood = feature.properties.neighborhood;
-            let averageScore = averageScoresByNeighborhood[neighborhood].averageScore;
-            let fillColor;
-          
-            if (averageScore >= 90) {
-              fillColor = 'green';
-            } else if (averageScore >= 75 && averageScore <= 89) {
-              fillColor = 'yellow';
-            } else {
-              fillColor = 'red';
-            }
-          
-            return {
-              fillColor: fillColor,
-              color: 'black',
-              weight: 1,
-              fillOpacity: 0.6
-            };
-          },
-          
-          onEachFeature: function (feature, layer) {
-            let neighborhood = feature.properties.neighborhood;
-            let averageScore = averageScoresByNeighborhood[neighborhood].averageScore;
-
-            layer.bindPopup(`<div style="text-align: center;">
-                               <strong style="font-size: 14px;">${neighborhood}</strong><br>
-                               <strong>AVERAGE INSPECTION SCORE:</strong><br> 
-                               <span style="font-size: 26px; background-color: ${fillColor}; color: black; padding: 2px 5px; border-radius: 4px;">${averageScore}</span>
-                             </div>`);
-          }
-        });
-
-        // Add the choropleth layer to the map
-        myMap.addLayer(geojsonLayer);
-      });
+    // Add the choropleth layer to the map
+    geojson.addTo(myMap);
   });
+
