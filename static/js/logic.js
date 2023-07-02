@@ -1,3 +1,4 @@
+// Creating the Leaflet map
 let myMap = L.map("map", {
   center: [37.7749, -122.4194],
   zoom: 13
@@ -8,68 +9,77 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
 }).addTo(myMap);
 
-// Link to GeoJSON data
-let geoData = "https://data.sfgov.org/resource/6ia5-2f8k.geojson";
-// Link to JSON data
-let jsonData = "https://data.sfgov.org/resource/pyih-qa8i.json";
-
-// Fetching the JSON data
-fetch(jsonData)
+// Fetching the GeoJSON data
+fetch("https://data.sfgov.org/resource/6ia5-2f8k.geojson")
   .then(response => response.json())
-  .then(jsonData => {
-    // Getting the GeoJSON data
-    d3.json(geoData).then(function(data) {
-      // Creating GeoJSON layer with choropleth
-      L.geoJson(data, {
-        style: function(feature) {
-          // Retrieve the relevant property for the choropleth
-          let score = feature.properties.inspection_score;
+  .then(geojsonData => {
+    // Fetching the JSON data
+    fetch("https://data.sfgov.org/resource/pyih-qa8i.json")
+      .then(response => response.json())
+      .then(jsonData => {
+        // Filter and process the data
+        const filteredData = jsonData.filter(business => business.coordinates && business.inspection_score);
+        const averages = {};
 
-          // Define the color based on the score value
-          let fillColor = "#808080"; // Default color for missing values
-          if (score >= 90) {
-            fillColor = "#008000"; // Green
-          } else if (score >= 80) {
-            fillColor = "#FFFF00"; // Yellow
-          } else if (score >= 0) {
-            fillColor = "#FF0000"; // Red
-          }
-
-          // Return the style object
-          return {
-            color: "blue",
-            fillColor: fillColor,
-            fillOpacity: 0.5,
-            weight: 1.5
-          };
-        },
-        onEachFeature: function(feature, layer) {
-          // Find the corresponding business in the JSON data
-          let filteredData = jsonData.filter(
-            item => item.business_id === feature.properties.business_id
-          );
-
-          // Create the popup content
-          let popupContent = "<strong>" + feature.properties.name + "</strong><br>";
-
-          if (filteredData.length > 0) {
-            let jsonDataItem = filteredData[0];
-
-            // Add additional data from the JSON
-            popupContent +=
-              "Address: " + (jsonDataItem.business_address || feature.properties.address) + "<br>";
-
-            if (jsonDataItem.business_location && jsonDataItem.business_location.coordinates) {
-              let coordinates = jsonDataItem.business_location.coordinates;
-              popupContent += "Latitude: " + coordinates[1] + "<br>";
-              popupContent += "Longitude: " + coordinates[0] + "<br>";
+        filteredData.forEach(business => {
+          geojsonData.features.forEach(feature => {
+            const { coordinates } = business;
+            if (isInsidePolygon(coordinates, feature.geometry.coordinates)) {
+              if (!averages[feature.properties.name]) {
+                averages[feature.properties.name] = {
+                  count: 1,
+                  totalScore: business.inspection_score
+                };
+              } else {
+                averages[feature.properties.name].count++;
+                averages[feature.properties.name].totalScore += business.inspection_score;
+              }
             }
-          }
+          });
+        });
 
-          // Bind the popup to the layer
-          layer.bindPopup(popupContent);
+        for (const feature of geojsonData.features) {
+          const name = feature.properties.name;
+          const averageScore = averages[name] ? averages[name].totalScore / averages[name].count : 0;
+
+          // Styling the choropleth map
+          L.geoJSON(feature, {
+            style: {
+              fillColor: getColor(averageScore),
+              fillOpacity: 0.6,
+              color: 'black',
+              weight: 1
+            }
+          }).addTo(myMap).bindPopup(`<b>${name}</b><br>Average Score: ${averageScore.toFixed(2)}`);
         }
-      }).addTo(myMap);
-    });
+      })
+      .catch(error => console.error("Error fetching JSON data:", error));
   })
-  .catch(error => console.log(error));
+  .catch(error => console.error("Error fetching GeoJSON data:", error));
+
+// Helper function to check if a point is inside a polygon
+function isInsidePolygon(point, polygon) {
+  const x = point[0];
+  const y = point[1];
+  let inside = false;
+
+  for (let i = 0, j = polygon[0].length - 1; i < polygon[0].length; j = i++) {
+    const xi = polygon[0][i][0];
+    const yi = polygon[0][i][1];
+    const xj = polygon[0][j][0];
+    const yj = polygon[0][j][1];
+
+    const intersect = ((yi > y) !== (yj > y)) && (x < ((xj - xi) * (y - yi)) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+
+  return inside;
+}
+
+// Helper function to determine the color based on the score
+function getColor(score) {
+  return score >= 90 ? "#008000" :
+         score >= 80 ? "#FFFF00" :
+         score >= 70 ? "#FFA500" :
+                       "#FF0000";
+}
