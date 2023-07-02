@@ -9,19 +9,28 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
 }).addTo(myMap);
 
-// Perform AJAX request to get the JSON data
-$.getJSON("https://data.sfgov.org/resource/pyih-qa8i.json", function(data) {
+// D3 to get the JSON data
+d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
   // Filter out businesses without coordinates or inspection scores
   let filteredData = data.filter(item => item.coordinates && item.inspection_score);
 
-  // Create an object to hold the average inspection scores for each geojson name
+  // Create an object to hold the sum and count for each geojson name
   let propertyScores = {};
 
-  // Perform AJAX request to get the GeoJSON data
-  $.getJSON("https://data.sfgov.org/resource/6ia5-2f8k.geojson", function(geojson) {
-    // Iterate over the filtered data and calculate average inspection score for each geojson name
+  // D3 to get the GeoJSON data
+  d3.json("https://data.sfgov.org/resource/6ia5-2f8k.geojson").then(function(geojson) {
+    // Iterate over the geojson features and initialize the sum and count for each name
+    geojson.features.forEach(feature => {
+      let name = feature.properties.name;
+      propertyScores[name] = {
+        sum: 0,
+        count: 0
+      };
+    });
+
+    // Iterate over the filtered data and accumulate the sum and count for each geojson name
     filteredData.forEach(item => {
-      let coordinates = parseFloat(item.coordinates); // Extract the coordinates from the JSON data
+      let coordinates = item.coordinates; // Extract the coordinates from the JSON data
       let inspectionScore = parseFloat(item.inspection_score); // Parse the inspection score as a float
 
       // Iterate over the geojson features and find the matching name
@@ -30,16 +39,8 @@ $.getJSON("https://data.sfgov.org/resource/pyih-qa8i.json", function(data) {
 
         // Check if the coordinates match
         if (coordinates[0] === feature.geometry.coordinates[0] && coordinates[1] === feature.geometry.coordinates[1]) {
-          // Calculate the sum and count for the name
-          if (propertyScores[name]) {
-            propertyScores[name].sum += inspectionScore;
-            propertyScores[name].count++;
-          } else {
-            propertyScores[name] = {
-              sum: inspectionScore,
-              count: 1
-            };
-          }
+          propertyScores[name].sum += inspectionScore;
+          propertyScores[name].count++;
         }
       });
     });
