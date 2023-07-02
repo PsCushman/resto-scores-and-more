@@ -17,7 +17,7 @@ $.getJSON("https://data.sfgov.org/resource/pyih-qa8i.json", function(data) {
   // Calculate the average inspection score for each geojson property
   let propertyScores = {};
   filteredData.forEach(item => {
-    let property = JSON.stringify(item.coordinates);
+    let property = JSON.stringify(item.coordinates); // Using JSON.stringify because "coordinates" are within an array.
     if (property in propertyScores) {
       propertyScores[property].push(parseInt(item.inspection_score));
     } else {
