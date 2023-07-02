@@ -12,12 +12,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Perform AJAX request to get the JSON data
 $.getJSON("https://data.sfgov.org/resource/pyih-qa8i.json", function(data) {
   // Process the JSON data and filter out businesses without coordinates or inspection scores
-  let filteredData = data.filter(item => item.business_latitude && item.business_longitude && item.inspection_score);
+  let filteredData = data.filter(item => item.coordinates && item.inspection_score);
 
   // Calculate the average inspection score for each geojson property
   let propertyScores = {};
   filteredData.forEach(item => {
-    let property = item.coordinates;
+    let property = JSON.stringify(item.coordinates);
     if (property in propertyScores) {
       propertyScores[property].push(parseInt(item.inspection_score));
     } else {
