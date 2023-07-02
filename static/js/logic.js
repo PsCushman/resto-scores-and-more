@@ -1,7 +1,7 @@
 // Create the Leaflet map
 let myMap = L.map("map", {
   center: [37.7749, -122.4194],
-  zoom: 13
+  zoom: 18
 });
 
 // Adding the tile layer
@@ -11,35 +11,50 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Perform AJAX request to get the JSON data
 $.getJSON("https://data.sfgov.org/resource/pyih-qa8i.json", function(data) {
-  // Process the JSON data and filter out businesses without coordinates or inspection scores
+  // Filter out businesses without coordinates or inspection scores
   let filteredData = data.filter(item => item.coordinates && item.inspection_score);
 
-  // Calculate the average inspection score for each geojson property
+  // Create an object to hold the average inspection scores for each geojson name
   let propertyScores = {};
+
+  // Iterate over the filtered data and calculate average inspection score for each geojson name
   filteredData.forEach(item => {
-    let property = JSON.stringify(item.coordinates); // Using JSON.stringify because "coordinates" are within an array.
-    if (property in propertyScores) {
-      propertyScores[property].push(parseInt(item.inspection_score));
-    } else {
-      propertyScores[property] = [parseInt(item.inspection_score)];
-    }
+    let coordinates = parseFloat(item.coordinates); // Extract the coordinates from the JSON data
+    let inspectionScore = parseFloat(item.inspection_score); // Parse the inspection score as a float
+
+    // Iterate over the geojson features and find the matching name
+    geojson.features.forEach(feature => {
+      let name = feature.properties.name;
+
+      // Check if the coordinates match
+      if (coordinates[0] === feature.geometry.coordinates[0] && coordinates[1] === feature.geometry.coordinates[1]) {
+        // Calculate the sum and count for the name
+        if (propertyScores[name]) {
+          propertyScores[name].sum += inspectionScore;
+          propertyScores[name].count++;
+        } else {
+          propertyScores[name] = {
+            sum: inspectionScore,
+            count: 1
+          };
+        }
+      }
+    });
   });
 
-  // Calculate the average score for each property
-  for (let property in propertyScores) {
-    let scores = propertyScores[property];
-    let sum = scores.reduce((acc, cur) => acc + cur, 0);
-    let average = sum / scores.length;
-    propertyScores[property] = average;
+  // Calculate the average inspection score for each geojson name
+  for (let name in propertyScores) {
+    let average = propertyScores[name].sum / propertyScores[name].count;
+    propertyScores[name] = average;
   }
 
   // Perform AJAX request to get the GeoJSON data
   $.getJSON("https://data.sfgov.org/resource/6ia5-2f8k.geojson", function(geojson) {
     // Create the choropleth layer using L.choropleth
     let choroplethLayer = L.choropleth(geojson, {
-      valueProperty: function(feature) {
-        let property = feature.properties.name;
-        return propertyScores[property] || 0;
+      valueProperty: feature => {
+        let name = feature.properties.name;
+        return propertyScores[name] || 0;
       },
       scale: ["#FF0000", "#FFA500", "#FFFF00", "#008000"],
       steps: 4,
@@ -47,16 +62,16 @@ $.getJSON("https://data.sfgov.org/resource/pyih-qa8i.json", function(data) {
       style: {
         color: "#fff",
         weight: 1,
-        fillOpacity: 0.5
+        fillOpacity: 0.4
       },
-      onEachFeature: function(feature, layer) {
-        let property = feature.properties.name;
-        let score = propertyScores[property] || 0;
-        layer.bindPopup("District: " + property + "<br>Average Inspection Score: " + score.toFixed(2));
+      onEachFeature: (feature, layer) => {
+        let name = feature.properties.name;
+        let score = propertyScores[name] || 0;
+        layer.bindPopup("District: " + name + "<br>Average Inspection Score: " + score.toFixed(2));
       }
     }).addTo(myMap);
 
-    // Add the choropleth layer to the map
+    // Fit the map bounds to the choropleth layer
     myMap.fitBounds(choroplethLayer.getBounds());
   });
 });
