@@ -17,39 +17,39 @@ $.getJSON("https://data.sfgov.org/resource/pyih-qa8i.json", function(data) {
   // Create an object to hold the average inspection scores for each geojson name
   let propertyScores = {};
 
-  // Iterate over the filtered data and calculate average inspection score for each geojson name
-  filteredData.forEach(item => {
-    let coordinates = parseFloat(item.coordinates); // Extract the coordinates from the JSON data
-    let inspectionScore = parseFloat(item.inspection_score); // Parse the inspection score as a float
-
-    // Iterate over the geojson features and find the matching name
-    geojson.features.forEach(feature => {
-      let name = feature.properties.name;
-
-      // Check if the coordinates match
-      if (coordinates[0] === feature.geometry.coordinates[0] && coordinates[1] === feature.geometry.coordinates[1]) {
-        // Calculate the sum and count for the name
-        if (propertyScores[name]) {
-          propertyScores[name].sum += inspectionScore;
-          propertyScores[name].count++;
-        } else {
-          propertyScores[name] = {
-            sum: inspectionScore,
-            count: 1
-          };
-        }
-      }
-    });
-  });
-
-  // Calculate the average inspection score for each geojson name
-  for (let name in propertyScores) {
-    let average = propertyScores[name].sum / propertyScores[name].count;
-    propertyScores[name] = average;
-  }
-
   // Perform AJAX request to get the GeoJSON data
   $.getJSON("https://data.sfgov.org/resource/6ia5-2f8k.geojson", function(geojson) {
+    // Iterate over the filtered data and calculate average inspection score for each geojson name
+    filteredData.forEach(item => {
+      let coordinates = parseFloat(item.coordinates); // Extract the coordinates from the JSON data
+      let inspectionScore = parseFloat(item.inspection_score); // Parse the inspection score as a float
+
+      // Iterate over the geojson features and find the matching name
+      geojson.features.forEach(feature => {
+        let name = feature.properties.name;
+
+        // Check if the coordinates match
+        if (coordinates[0] === feature.geometry.coordinates[0] && coordinates[1] === feature.geometry.coordinates[1]) {
+          // Calculate the sum and count for the name
+          if (propertyScores[name]) {
+            propertyScores[name].sum += inspectionScore;
+            propertyScores[name].count++;
+          } else {
+            propertyScores[name] = {
+              sum: inspectionScore,
+              count: 1
+            };
+          }
+        }
+      });
+    });
+
+    // Calculate the average inspection score for each geojson name
+    for (let name in propertyScores) {
+      let average = propertyScores[name].sum / propertyScores[name].count;
+      propertyScores[name] = average;
+    }
+
     // Create the choropleth layer using L.choropleth
     let choroplethLayer = L.choropleth(geojson, {
       valueProperty: feature => {
