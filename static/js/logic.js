@@ -14,48 +14,57 @@ d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
   // Filter out businesses without coordinates or inspection scores
   let filteredData = data.filter(item => item.coordinates && item.inspection_score);
 
-  // Create an object to hold the sum and count for each geojson name
-  let propertyScores = {};
+  // Create an object to hold the inspection scores for each coordinate
+  let inspectionScores = {};
+
+  // Iterate over the filtered data and store inspection scores by coordinates
+  filteredData.forEach(item => {
+    let coordinates = [
+      parseFloat(item.coordinates[0]).toFixed(6),
+      parseFloat(item.coordinates[1]).toFixed(6)
+    ];
+    let inspectionScore = parseFloat(item.inspection_score);
+
+    // Check if the coordinates exist in the inspectionScores object
+    if (coordinates in inspectionScores) {
+      inspectionScores[coordinates].push(inspectionScore);
+    } else {
+      inspectionScores[coordinates] = [inspectionScore];
+    }
+  });
 
   // D3 to get the GeoJSON data
   d3.json("https://data.sfgov.org/resource/6ia5-2f8k.geojson").then(function(geojson) {
-    // Iterate over the geojson features and initialize the sum and count for each name
+    // Iterate over the geojson features and calculate the average inspection score for each district
     geojson.features.forEach(feature => {
-      let name = feature.properties.name;
-      propertyScores[name] = {
-        sum: 0,
-        count: 0
-      };
-    });
+      let coordinates = feature.geometry.coordinates.map(coord =>
+        parseFloat(coord).toFixed(6)
+      );
+      let district = feature.properties.name;
 
-    // Iterate over the filtered data and accumulate the sum and count for each geojson name
-    filteredData.forEach(item => {
-      let coordinates = item.coordinates; // Extract the coordinates from the JSON data
-      let inspectionScore = parseFloat(item.inspection_score); // Parse the inspection score as a float
-
-      // Iterate over the geojson features and find the matching name
-      geojson.features.forEach(feature => {
-        let name = feature.properties.name;
-
-        // Check if the coordinates match
-        if (coordinates[0] === feature.geometry.coordinates[0] && coordinates[1] === feature.geometry.coordinates[1]) {
-          propertyScores[name].sum += inspectionScore;
-          propertyScores[name].count++;
+      // Check if the coordinates exist in the inspectionScores object
+      if (coordinates in inspectionScores) {
+        let scores = inspectionScores[coordinates];
+        
+        if (scores && scores.length > 0) { // Check if scores is defined and has a length greater than 0
+          let sum = scores.reduce((acc, cur) => acc + cur, 0);
+          let average = sum / scores.length;
+          inspectionScores[coordinates] = average;
+        } else {
+          inspectionScores[coordinates] = undefined; // No inspection scores for the district
         }
-      });
+      } else {
+        inspectionScores[coordinates] = undefined; // No inspection scores for the district
+      }
     });
-
-    // Calculate the average inspection score for each geojson name
-    for (let name in propertyScores) {
-      let average = propertyScores[name].sum / propertyScores[name].count;
-      propertyScores[name] = average;
-    }
 
     // Create the choropleth layer using L.choropleth
     let choroplethLayer = L.choropleth(geojson, {
       valueProperty: feature => {
-        let name = feature.properties.name;
-        return propertyScores[name] || 0;
+        let coordinates = feature.geometry.coordinates.map(coord =>
+          parseFloat(coord).toFixed(6)
+        );
+        return inspectionScores[coordinates] || 0;
       },
       scale: ["#FF0000", "#FFA500", "#FFFF00", "#008000"],
       steps: 4,
@@ -66,9 +75,20 @@ d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
         fillOpacity: 0.4
       },
       onEachFeature: (feature, layer) => {
-        let name = feature.properties.name;
-        let score = propertyScores[name] || 0;
-        layer.bindPopup("District: " + name + "<br>Average Inspection Score: " + score.toFixed(2));
+        let district = feature.properties.name;
+        let coordinates = feature.geometry.coordinates.map(coord =>
+          parseFloat(coord).toFixed(6)
+        );
+        let score = inspectionScores[coordinates];
+        let popupContent = "District: " + district + "<br>";
+        
+        if (score !== undefined) {
+          popupContent += "Average Inspection Score: " + score.toFixed(2);
+        } else {
+          popupContent += "No data";
+        }
+        
+        layer.bindPopup(popupContent);
       }
     }).addTo(myMap);
 
