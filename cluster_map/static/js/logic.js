@@ -78,7 +78,7 @@ fetch(baseURL)
     myMap.addControl(controlSearch);
 
     // Create the legend control
-    var controlScores = L.control({ position: 'bottomright' });
+    var controlScores = L.control({ position: 'topright' });
 
     controlScores.onAdd = function (map) {
       var div = L.DomUtil.create('div', 'info legend');
