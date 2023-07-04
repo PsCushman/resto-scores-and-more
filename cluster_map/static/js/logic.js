@@ -1,6 +1,5 @@
 let myMap = L.map("map", {
-  center: [37.7749, -122.4194],
-  zoom: 13
+  center: [37.7749, -122.4194]
 });
 
 // Adding the tile layer
@@ -64,19 +63,6 @@ fetch(baseURL)
 
     // Add the marker cluster group to the map
     myMap.addLayer(markerCluster);
-
-    // Create the search control
-    var controlSearch = new L.Control.Search({
-      position: 'topright',
-      layer: markerCluster,
-      initial: false,
-      zoom: 12,
-      marker: false,
-      propertyName: 'business_name'
-    });
-
-    // Add the search control to the map
-    myMap.addControl(controlSearch);
 
 
     // Create the legend control
@@ -155,4 +141,41 @@ fetch(baseURL)
 
     // Add the score filter control to the map
     controlScores.addTo(myMap);
+  });
+
+// Get the data with fetch.
+fetch(baseURL)
+  .then(response => response.json())
+  .then(data => {
+    var markersLayer = new L.LayerGroup(); // Layer containing searched elements
+    myMap.addLayer(markersLayer);
+
+    var controlSearch = new L.Control.Search({
+      position: 'topright',
+      layer: markersLayer,
+      initial: false,
+      zoom: 20,
+      marker: false
+    });
+
+    myMap.addControl(controlSearch);
+
+    // Populate map with markers from data
+    data.forEach(restaurant => {
+      var title = restaurant.business_name; // Value searched
+      var latitude = parseFloat(restaurant.business_latitude); // Latitude
+      var longitude = parseFloat(restaurant.business_longitude); // Longitude
+
+      if (!isNaN(latitude) && !isNaN(longitude)) {
+        var marker = new L.Marker(new L.latLng(latitude, longitude), { title: title });
+        markersLayer.addLayer(marker);
+        marker.setOpacity(0); // Set marker opacity to 0 to make it invisible
+      }
+    });
+
+    // Set center to the first marker's location
+    var firstMarker = markersLayer.getLayers()[0];
+    if (firstMarker) {
+      myMap.setView(firstMarker.getLatLng(), 12);
+    }
   });
