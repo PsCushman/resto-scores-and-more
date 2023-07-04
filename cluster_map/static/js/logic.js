@@ -1,15 +1,46 @@
-let myMap = L.map("map", {
-  center: [37.7749, -122.4194]
+// Get the data with fetch.
+    let myMap = L.map("map", {
+  center: [37.7749, -122.4194], zoom: 13,
 });
+
+// Store the API query variables.
+let baseURL = "https://data.sfgov.org/resource/pyih-qa8i.json?";
+// let url = baseURL + "$$app_token=" + apiToken;
+
+fetch(baseURL)
+  .then(response => response.json())
+  .then(data => {
+    var markersLayer = new L.LayerGroup(); // Layer containing searched elements
+    myMap.addLayer(markersLayer);
+
+    var controlSearch = new L.Control.Search({
+      position: 'topright',
+      layer: markersLayer,
+      initial: false,
+      zoom: 20,
+      marker: false
+    });
+
+    myMap.addControl(controlSearch);
+
+    // Populate map with markers from data
+    data.forEach(restaurant => {
+      var title = restaurant.business_name; // Value searched
+      var latitude = parseFloat(restaurant.business_latitude); // Latitude
+      var longitude = parseFloat(restaurant.business_longitude); // Longitude
+
+      if (!isNaN(latitude) && !isNaN(longitude)) {
+        var marker = new L.Marker(new L.latLng(latitude, longitude), { title: title });
+        markersLayer.addLayer(marker);
+        marker.setOpacity(0); // Set marker opacity to 0 to make it invisible
+      }
+    });
+  });
 
 // Adding the tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
 }).addTo(myMap);
-
-// Store the API query variables.
-let baseURL = "https://data.sfgov.org/resource/pyih-qa8i.json?";
-// let url = baseURL + "$$app_token=" + apiToken;
 
 // Create an array to store the markers
 let markers = [];
@@ -143,49 +174,5 @@ fetch(baseURL)
     };
 
     // Add the score filter control to the map
-    controlScores.addTo(myMap);
-    
-    var seventhMarker = markers[12]; // 7th marker (index 6)
-    if (seventhMarker) {
-        myMap.setView(seventhMarker.getLatLng(), 12.3);
-      }
-  
-  });
-
-
-
-// Get the data with fetch.
-fetch(baseURL)
-  .then(response => response.json())
-  .then(data => {
-    var markersLayer = new L.LayerGroup(); // Layer containing searched elements
-    myMap.addLayer(markersLayer);
-
-    var controlSearch = new L.Control.Search({
-      position: 'topright',
-      layer: markersLayer,
-      initial: false,
-      zoom: 20,
-      marker: false
-    });
-
-    myMap.addControl(controlSearch);
-
-    // Populate map with markers from data
-    data.forEach(restaurant => {
-      var title = restaurant.business_name; // Value searched
-      var latitude = parseFloat(restaurant.business_latitude); // Latitude
-      var longitude = parseFloat(restaurant.business_longitude); // Longitude
-
-      if (!isNaN(latitude) && !isNaN(longitude)) {
-        var marker = new L.Marker(new L.latLng(latitude, longitude), { title: title });
-        markersLayer.addLayer(marker);
-        marker.setOpacity(0); // Set marker opacity to 0 to make it invisible
-      }
-    });
-
-    var seventhMarkerLayer = markersLayer.getLayers()[12]; // 7th marker layer (index 6)
-    if (seventhMarkerLayer) {
-      myMap.setView(seventhMarkerLayer.getLatLng(), 12.3);
-    }
+    controlScores.addTo(myMap); 
   });
