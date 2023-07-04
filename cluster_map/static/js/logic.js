@@ -15,7 +15,10 @@ let baseURL = "https://data.sfgov.org/resource/pyih-qa8i.json?";
 let markers = [];
 
 // Create a marker cluster group
-let markerCluster = L.markerClusterGroup();
+let markerCluster = L.markerClusterGroup({
+  disableClusteringAtZoom: 18, // Set the zoom level at which clustering is disabled
+  spiderfyOnMaxZoom: true, // Disable spiderfying of markers on max zoom
+});
 
 // Get the data with fetch.
 fetch(baseURL)
@@ -141,7 +144,15 @@ fetch(baseURL)
 
     // Add the score filter control to the map
     controlScores.addTo(myMap);
+    
+    var seventhMarker = markers[12]; // 7th marker (index 6)
+    if (seventhMarker) {
+        myMap.setView(seventhMarker.getLatLng(), 12.3);
+      }
+  
   });
+
+
 
 // Get the data with fetch.
 fetch(baseURL)
@@ -173,9 +184,8 @@ fetch(baseURL)
       }
     });
 
-    // Set center to the first marker's location
-    var firstMarker = markersLayer.getLayers()[0];
-    if (firstMarker) {
-      myMap.setView(firstMarker.getLatLng(), 12);
+    var seventhMarkerLayer = markersLayer.getLayers()[12]; // 7th marker layer (index 6)
+    if (seventhMarkerLayer) {
+      myMap.setView(seventhMarkerLayer.getLatLng(), 12.3);
     }
   });
