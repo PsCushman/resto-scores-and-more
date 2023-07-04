@@ -131,3 +131,31 @@
     }
 
 }(jQuery));
+
+
+// Add a tile layer to the map
+// L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+//     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+// }).addTo(map);
+
+// var blueMarkers = {
+//     good_hood: {lat: 37.7636, lon: -122.4200},
+//     bad_hood: {lat: 37.7467, lon: -122.4863},
+//     sunflower: {lat: 37.762647, lon: -122.397545},
+//     lees: {lat: 37.729455, lon: -122.386364},
+//     schools: {lat: 58.17993, lon: 8.12952},
+//     peter: {lat: 37.801278, lon: -122.410384},
+//     alice: {lat: 37.759386, lon: -122.469292}
+// };
+
+// // Create markers at the specified coordinates
+// for (var markerKey in blueMarkers) {
+//     if (blueMarkers.hasOwnProperty(markerKey)) {
+//         var markerData = blueMarkers[markerKey];
+//         L.marker([markerData.lat, markerData.lon]).addTo(map);
+//     }
+// }
+
+
+
+
