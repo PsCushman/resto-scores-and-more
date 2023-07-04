@@ -46,7 +46,7 @@ fetch(baseURL)
       }
 
       // Check for valid latitude and longitude
-      if (!isNaN(latitude) && !isNaN(longitude)) {
+      if (latitude && longitude) {
         // Create a marker and bind a popup
         let marker = L.marker([latitude, longitude])
           .bindPopup(`<div style="text-align: center;">
@@ -71,11 +71,13 @@ fetch(baseURL)
       layer: markerCluster,
       initial: false,
       zoom: 12,
-      marker: false
+      marker: false,
+      propertyName: 'business_name'
     });
 
     // Add the search control to the map
     myMap.addControl(controlSearch);
+
 
     // Create the legend control
     var controlScores = L.control({ position: 'topright' });
