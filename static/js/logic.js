@@ -57,7 +57,7 @@ d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
 
         if (scores && scores.length > 0) {
           let sum = scores.reduce((acc, cur) => acc + cur, 0);
-          let average = sum / scores.length;
+          let average = Math.floor(sum / scores.length);
           inspectionScores[zipCode] = average;
         } else {
           inspectionScores[zipCode] = undefined; // No inspection scores for the zip code
@@ -78,16 +78,16 @@ d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
       mode: "q",
       style: {
         color: "blue",
-        weight: 1,
-        fillOpacity: 0.4
+        weight: 0.5,
+        fillOpacity: 0.7
       },
       onEachFeature: (feature, layer) => {
         let zipCode = feature.properties.zip_code || feature.properties.zip; // Check both "zip_code" and "zip" properties
         let score = inspectionScores[zipCode];
-        let popupContent = "Zip Code: " + zipCode + "<br>";
+        let popupContent = "SF Public Health Data"+"<br>"+"Zip Code: " + zipCode + "<br>";
 
         if (score !== undefined) {
-          popupContent += "Average Inspection Score: " + score.toFixed(2);
+          popupContent += "Average Inspection Score: " + score.toFixed(0);
         } else {
           popupContent += "No data";
         }
@@ -96,10 +96,58 @@ d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
       }
     }).addTo(myMap);
 
+    // Set up the legend.
+// Set up the legend.
+let legend = L.control({ position: "bottomright" });
+legend.onAdd = function() {
+  let div = L.DomUtil.create("div", "legend");
+  let limits = [0, 25, 50, 75, 100];
+  let colors = ["#FF0000", "#FFA500", "#FFFF00", "#008000"];
+  let labels = [];
+
+  // Add the legend title.
+  let legendTitle = "<h1>SF Public Health Inspection Scores<br />by Zip Codes</h1>";
+  div.innerHTML += legendTitle;
+
+  // Create the legend color bar.
+  let colorBar = "<div class=\"color-bar\">";
+  limits.forEach(function(limit, index) {
+    let color = colors[index];
+    let label = "";
+    if (index === 0) {
+      label = "No Scores";
+    } else if (index === 1) {
+      label = "Eat at Own Risk";
+    } else if (index === 2) {
+      label = "Needs Improvement";
+    } else if (index === 3) {
+      label = "Best Scores";
+    }
+    colorBar += "<div class=\"color-segment\" style=\"background-color: " + color + "\"></div>";
+    labels.push("<span class=\"label\">" + label + "</span>");
+  });
+  colorBar += "</div>";
+
+  // Add the labels to the legend.
+  let labelContainer = "<div class=\"labels\">" + labels.join("") + "</div>";
+
+  div.innerHTML += colorBar;
+  div.innerHTML += labelContainer;
+
+  return div;
+};
+
+// Adding the legend to the map
+legend.addTo(myMap);
+
+
+
     // Fit the map bounds to the choropleth layer
     myMap.fitBounds(choroplethLayer.getBounds());
+  
   })
   .catch(function(error) {
     console.error('Error fetching JSON data:', error);
   });
 });
+
