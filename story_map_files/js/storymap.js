@@ -11,7 +11,7 @@
                 // create a map in the "map" div, set the view to a given place and zoom
                 var map = L.map('map').setView([37.773972, -122.431297], 12);
 
-                // Add the Stamen Watercolor tile layer to the map
+                // Add the Stamen Toner tile layer to the map
                 L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
                     attribution: 'Map data © <a href="https://stamen.com">Stamen</a>'
                 }).addTo(map);
@@ -19,6 +19,11 @@
                 return map;
             }
         };
+
+                // // Add the Stamen Watercolor tile layer to the map
+                //  L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg', {
+                //     attribution: 'Map data © <a href="https://stamen.com">Stamen</a>'
+                //     }).addTo(map);
 
         var settings = $.extend(defaults, options);
 

@@ -2,23 +2,41 @@
     position: relative;
     z-index: 1000;
     display: flex;
-    flex-direction: column; /* Added to stack header and paragraph vertically */
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start; /* Update align-items to flex-start */
     background-color: #abd1c6;
-    padding: 20px;
+    padding: 20px 20px 10px;
     border-radius: 5px;
     font-family: 'Heebo', sans-serif;
 }
 
 .jumbotron h1 {
     font-size: 36px;
-    margin-bottom: 20px; /* Added margin to create space between header and paragraph */
+    margin-bottom: 20px;
 }
 
-.jumbotron p {
+.jumbotron p:first-of-type {
+    font-size: 30px;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.jumbotron p:nth-of-type(2) {
+    font-size: 22px;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    text-align: right;
+    align-self: flex-end; /* Update align-self to flex-end */
+}
+
+h1, h2 {
+    font-family: 'Heebo', sans-serif;
+}
+
+/* Font styles for paragraphs */
+p {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
     font-size: 20px;
-    text-align: left; /* Added 'text-align' property to align paragraph text to the left */
-    align-self: flex-start; /* Added 'align-self' property to align paragraph to the left within the jumbotron */
 }
 
 .sidebar {
