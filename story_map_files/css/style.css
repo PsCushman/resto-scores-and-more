@@ -78,3 +78,27 @@ section {
 .image-container {
         text-align: center;
 }
+
+.cluster-map-button {
+    background-color: #abd1c6;
+    border: 1px solid #abd1c6;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cluster-map-button:hover {
+    background-color: #992831;
+    border-color: #992831;
+}
+
+.api-button {
+    background-color: #abd1c6;
+    border: 1px solid #abd1c6;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.api-button:hover {
+    background-color: #992831;
+    border-color: #992831;
+}

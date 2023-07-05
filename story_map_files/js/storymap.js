@@ -11,9 +11,9 @@
                 // create a map in the "map" div, set the view to a given place and zoom
                 var map = L.map('map').setView([37.773972, -122.431297], 12);
 
-                // add an OpenStreetMap tile layer
-                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                // Add the Stamen Watercolor tile layer to the map
+                L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+                    attribution: 'Map data © <a href="https://stamen.com">Stamen</a>'
                 }).addTo(map);
 
                 return map;

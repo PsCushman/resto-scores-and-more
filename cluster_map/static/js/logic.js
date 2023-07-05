@@ -1,6 +1,6 @@
 // Get the data with fetch.
     let myMap = L.map("map", {
-  center: [37.7749, -122.4194], zoom: 13,
+  center: [37.7749, -122.4194], zoom: 12,
 });
 
 // Store the API query variables.
@@ -48,7 +48,7 @@ let markers = [];
 // Create a marker cluster group
 let markerCluster = L.markerClusterGroup({
   disableClusteringAtZoom: 18, // Set the zoom level at which clustering is disabled
-  spiderfyOnMaxZoom: true, // Disable spiderfying of markers on max zoom
+  spiderfyOnMaxZoom: true, // Enable spiderfying of markers on max zoom
 });
 
 // Get the data with fetch.
