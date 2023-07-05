@@ -1,7 +1,7 @@
 // Create the Leaflet map
 let myMap = L.map("map", {
   center: [37.7749, -122.4194],
-  zoom: 18
+  zoom: 13
 });
 
 // Adding the tile layer
@@ -11,88 +11,95 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // D3 to get the JSON data
 d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
-  // Filter out businesses without coordinates or inspection scores
-  let filteredData = data.filter(item => item.coordinates && item.inspection_score);
+  // Filter out businesses without zip codes or inspection scores
+  let filteredData = data.filter(item => item.business_postal_code && item.inspection_score);
 
-  // Create an object to hold the inspection scores for each coordinate
+  // Create an object to hold the inspection scores for each zip code
   let inspectionScores = {};
 
-  // Iterate over the filtered data and store inspection scores by coordinates
+  // Iterate over the filtered data and store inspection scores by zip code
   filteredData.forEach(item => {
-    let coordinates = [
-      parseFloat(item.coordinates[0]).toFixed(6),
-      parseFloat(item.coordinates[1]).toFixed(6)
-    ];
+    let zipCode = item.business_postal_code;
     let inspectionScore = parseFloat(item.inspection_score);
 
-    // Check if the coordinates exist in the inspectionScores object
-    if (coordinates in inspectionScores) {
-      inspectionScores[coordinates].push(inspectionScore);
+    // Check if the zip code exists in the inspectionScores object
+    if (zipCode in inspectionScores) {
+      inspectionScores[zipCode].push(inspectionScore);
     } else {
-      inspectionScores[coordinates] = [inspectionScore];
+      inspectionScores[zipCode] = [inspectionScore];
     }
   });
 
-  // D3 to get the GeoJSON data
-  d3.json("https://data.sfgov.org/resource/6ia5-2f8k.geojson").then(function(geojson) {
-    // Iterate over the geojson features and calculate the average inspection score for each district
-    geojson.features.forEach(feature => {
-      let coordinates = feature.geometry.coordinates.map(coord =>
-        parseFloat(coord).toFixed(6)
-      );
-      let district = feature.properties.name;
+  // D3 to get the JSON data
+  d3.json("https://data.sfgov.org/resource/srq6-hmpi.json").then(function(jsonData) {
+    // Convert JSON data to GeoJSON format
+    let geojson = {
+      type: "FeatureCollection",
+      features: jsonData.map(item => {
+        return {
+          type: "Feature",
+          properties: item,
+          geometry: {
+            type: "Polygon",
+            coordinates: item.geometry.coordinates
+          }
+        };
+      })
+    };
 
-      // Check if the coordinates exist in the inspectionScores object
-      if (coordinates in inspectionScores) {
-        let scores = inspectionScores[coordinates];
-        
-        if (scores && scores.length > 0) { // Check if scores is defined and has a length greater than 0
+    // Iterate over the geojson features and calculate the average inspection score for each zip code
+    geojson.features.forEach(feature => {
+      let zipCode = feature.properties.zip_code || feature.properties.zip; // Check both "zip_code" and "zip" properties
+
+      // Check if the zip code exists in the inspectionScores object
+      if (zipCode in inspectionScores) {
+        let scores = inspectionScores[zipCode];
+
+        if (scores && scores.length > 0) {
           let sum = scores.reduce((acc, cur) => acc + cur, 0);
           let average = sum / scores.length;
-          inspectionScores[coordinates] = average;
+          inspectionScores[zipCode] = average;
         } else {
-          inspectionScores[coordinates] = undefined; // No inspection scores for the district
+          inspectionScores[zipCode] = undefined; // No inspection scores for the zip code
         }
       } else {
-        inspectionScores[coordinates] = undefined; // No inspection scores for the district
+        inspectionScores[zipCode] = undefined; // No inspection scores for the zip code
       }
     });
 
     // Create the choropleth layer using L.choropleth
     let choroplethLayer = L.choropleth(geojson, {
       valueProperty: feature => {
-        let coordinates = feature.geometry.coordinates.map(coord =>
-          parseFloat(coord).toFixed(6)
-        );
-        return inspectionScores[coordinates] || 0;
+        let zipCode = feature.properties.zip_code || feature.properties.zip; // Check both "zip_code" and "zip" properties
+        return inspectionScores[zipCode] || 0;
       },
       scale: ["#FF0000", "#FFA500", "#FFFF00", "#008000"],
       steps: 4,
       mode: "q",
       style: {
-        color: "#fff",
+        color: "blue",
         weight: 1,
         fillOpacity: 0.4
       },
       onEachFeature: (feature, layer) => {
-        let district = feature.properties.name;
-        let coordinates = feature.geometry.coordinates.map(coord =>
-          parseFloat(coord).toFixed(6)
-        );
-        let score = inspectionScores[coordinates];
-        let popupContent = "District: " + district + "<br>";
-        
+        let zipCode = feature.properties.zip_code || feature.properties.zip; // Check both "zip_code" and "zip" properties
+        let score = inspectionScores[zipCode];
+        let popupContent = "Zip Code: " + zipCode + "<br>";
+
         if (score !== undefined) {
           popupContent += "Average Inspection Score: " + score.toFixed(2);
         } else {
           popupContent += "No data";
         }
-        
+
         layer.bindPopup(popupContent);
       }
     }).addTo(myMap);
 
     // Fit the map bounds to the choropleth layer
     myMap.fitBounds(choroplethLayer.getBounds());
+  })
+  .catch(function(error) {
+    console.error('Error fetching JSON data:', error);
   });
 });
