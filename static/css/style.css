@@ -1,11 +1,16 @@
-#map { 
-    height: 600px; 
-}
+<style>
+  /* Map container */
+  #map {
+    height: 600px;
+  }
 
-.leaflet-popup-content-wrapper {
+  /* Leaflet popup content wrapper */
+  .leaflet-popup-content-wrapper {
     background-color: #abd1c6;
-}
-.leaflet-popup-content {
+  }
+
+  /* Leaflet popup content */
+  .leaflet-popup-content {
     background-color: #abd1c6;
     text-align: center;
     display: flex;
@@ -14,3 +19,74 @@
     align-items: center;
     height: 100%;
   }
+
+  /* Filter container */
+  .filter-container {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Filter label */
+  .filter-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  /* Filter select dropdown */
+  .filter-select {
+    width: 200px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  /* Marker colors */
+  .marker-green {
+    background-color: green;
+    color: black;
+  }
+
+  .marker-yellow {
+    background-color: yellow;
+    color: black;
+  }
+
+  .marker-red {
+    background-color: red;
+    color: white;
+  }
+  
+  /* Contact form styles */
+  .container {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #contact input[type="text"],
+  #contact input[type="email"],
+  #contact input[type="tel"],
+  #contact input[type="url"],
+  #contact textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #FFF;
+    margin: 0 0 10px; /* Increased margin to create space between input boxes */
+    padding: 10px;
+    box-sizing: border-box; /* Ensure padding doesn't increase the width of the input boxes */
+    vertical-align: middle; /* Adjust vertical alignment */
+  }
+  
+  /* ... (other CSS styles) ... */
+  
+  /* Additional styles for the "Filter by Risk Category" dropdown */
+  .filter-container:nth-child(3) {
+    justify-content: flex-start;
+  }
+
+</style>

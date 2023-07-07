@@ -30,7 +30,7 @@ fetch(baseURL)
         const yearMatch = year === "All" || inspectionYear === year;
         const scoreMatch =
           (scoreRange === "All") || // Include the condition for "All" inspection scores
-          (scoreRange === "100-90" && inspectionScore >= 90 && inspectionScore <= 100) ||
+          (scoreRange === "90+" && inspectionScore >= 90 && inspectionScore <= 100) ||
           (scoreRange === "89-80" && inspectionScore >= 80 && inspectionScore <= 89) ||
           (scoreRange === "79-70" && inspectionScore >= 70 && inspectionScore <= 79) ||
           (scoreRange === "<69" && inspectionScore < 69);
@@ -102,10 +102,46 @@ fetch(baseURL)
     const riskCategoryFilterDropdown = document.getElementById("risk-category-filter");
     riskCategoryFilterDropdown.addEventListener("change", handleFilterUpdate);
 
+    // Create the legend control
+    var controlScores = L.control({ position: 'topright' });
+
+    controlScores.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'info legend');
+      div.innerHTML += '<h4>Filter by Score</h4>';
+
+      // Define the score ranges
+      var scoreRanges = [
+        { color: 'green', min: 90, max: Infinity },
+        { color: 'yellow', min: 80, max: 89 },
+        { color: 'red', min: 70, max: 79 },
+        { color: 'gray', min: 'Unrated', max: 'Unrated' }
+      ];
+
+      // Iterate through the score ranges and create checkboxes with labels
+      scoreRanges.forEach(range => {
+        var label;
+        if (range.min === 'Unrated' && range.max === 'Unrated') {
+          label = range.min;
+        } else if (range.max === Infinity) {
+          label = range.min + '+';
+        } else {
+          label = range.min + ' - ' + range.max;
+        }
+
+        div.innerHTML +=
+          '<label><input type="checkbox" class="score-checkbox" value="' +
+          range.color +
+          '" checked>' +
+          label +
+          '</label><br>';
+      });
+
+      return div;
+    };
+
+    // Add the legend control to the map
+    controlScores.addTo(myMap);
+
     // Initial marker update with all data
     updateMarkers(data);
   });
-
-
-
-
