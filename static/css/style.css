@@ -1,91 +1,31 @@
-#map {
-    height: 800px;
+body {
+    padding: 0;
+    margin: 0;
   }
   
-  .leaflet-popup-content-wrapper {
-    background-color: #abd1c6;
-  }
-  
-  .leaflet-popup-content {
-    background-color: #abd1c6;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  #map,
+  body,
+  html {
     height: 100%;
   }
   
   .legend {
+    background-color: #fff;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 18px;
     color: #555;
-    padding: 6px 8px;
-    font: 12px Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    background: rgb(252, 251, 251);
-    background: rgba(245, 247, 244, 0.8);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
   
-  .legend .title {
-    text-align: center;
+  .legend h4 {
+    margin: 0 0 14px;
   }
   
-  .legend .color-bar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .legend .color-segment {
-    width: 30px;
-    height: 22px;
-    margin-bottom: 2px;
-  }
-  
-  .legend .labels {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 5px;
-  }
-  
-  .legend .label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-  }
-  
-  .legend .label span {
-    margin-left: 5px;
-  }
-  
-  .legend ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    clear: both;
-  }
-  
-  .legend li {
-    display: inline-block;
-    width: 30px;
-    height: 22px;
-  }
-  
-  .legend .min {
+  .legend i {
+    width: 18px;
+    height: 18px;
     float: left;
-    padding-bottom: 5px;
-  }
-  
-  .legend .max {
-    float: right;
-  }
-  
-  h1 {
-    text-align: center;
+    margin-right: 8px;
+    opacity: 0.8;
   }
   

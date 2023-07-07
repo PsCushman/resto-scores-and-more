@@ -73,7 +73,7 @@ d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
         let zipCode = feature.properties.zip_code || feature.properties.zip; // Check both "zip_code" and "zip" properties
         return inspectionScores[zipCode] || 0;
       },
-      scale: ["#FF0000", "#FFA500", "#FFFF00", "#008000"],
+      scale: ["gray", "red", "#FFFF00", "#008000"],
       steps: 4,
       mode: "q",
       style: {
@@ -98,47 +98,41 @@ d3.json("https://data.sfgov.org/resource/pyih-qa8i.json").then(function(data) {
 
     // Set up the legend.
 // Set up the legend.
-let legend = L.control({ position: "bottomright" });
+
+var legend = L.control({ position: "bottomright" });
 legend.onAdd = function() {
-  let div = L.DomUtil.create("div", "legend");
-  let limits = [0, 25, 50, 75, 100];
-  let colors = ["#FF0000", "#FFA500", "#FFFF00", "#008000"];
+  var div = L.DomUtil.create("div", "legend");
+  var limits = ["No Data", "Eat at Your Own Peril", "Needs Improvement", "Definitely No Tummy Aches"];
+  var colors = ["gray", "red", "#FFFF00", "#008000"];
   let labels = [];
 
   // Add the legend title.
-  let legendTitle = "<h1>SF Public Health Inspection Scores<br />by Zip Codes</h1>";
-  div.innerHTML += legendTitle;
+  div.innerHTML += '<h4>SF Public Health Inspection Scores</h4>';
 
   // Create the legend color bar.
-  let colorBar = "<div class=\"color-bar\">";
-  limits.forEach(function(limit, index) {
-    let color = colors[index];
-    let label = "";
-    if (index === 0) {
-      label = "No Scores";
-    } else if (index === 1) {
-      label = "Eat at Own Risk";
-    } else if (index === 2) {
-      label = "Needs Improvement";
-    } else if (index === 3) {
-      label = "Best Scores";
-    }
-    colorBar += "<div class=\"color-segment\" style=\"background-color: " + color + "\"></div>";
-    labels.push("<span class=\"label\">" + label + "</span>");
-  });
-  colorBar += "</div>";
+for (var i = 0; i < limits.length; i++) {
+  var colorRange;
+  if (i === 0) {
+    colorRange = "No Data";
+  } else if (i === 1) {
+    colorRange = "Eat at Your Own Peril";
+  } else if (i === 2) {
+    colorRange = "Needs Improvement";
+  } else if (i === 3) {
+    colorRange = "Definitely No Tummy Aches";
+  }
+  div.innerHTML +=
+    '<i style="background:' + colors[i] + '"></i> ' +
+    colorRange + '<br>';
+}
 
-  // Add the labels to the legend.
-  let labelContainer = "<div class=\"labels\">" + labels.join("") + "</div>";
-
-  div.innerHTML += colorBar;
-  div.innerHTML += labelContainer;
 
   return div;
 };
 
 // Adding the legend to the map
 legend.addTo(myMap);
+
 
 
 
