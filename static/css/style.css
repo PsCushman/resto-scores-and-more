@@ -1,92 +1,158 @@
-<style>
-  /* Map container */
-  #map {
-    height: 600px;
-  }
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #000000;
+}
 
-  /* Leaflet popup content wrapper */
-  .leaflet-popup-content-wrapper {
-    background-color: #abd1c6;
-  }
+#map,
+body,
+html {
+  height: 100%;
+}
 
-  /* Leaflet popup content */
-  .leaflet-popup-content {
-    background-color: #abd1c6;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
+/* Map container */
+#map {
+  height: 600px; /* Adjust the height as desired */
+  width: 85%;
+  margin: 0 auto; /* Center the map horizontally */
+}
 
-  /* Filter container */
-  .filter-container {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+#map {
+  position: relative;
+}
 
-  /* Filter label */
-  .filter-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
+.grayscale-tile-layer {
+  filter: grayscale(100%);
+}
 
-  /* Filter select dropdown */
-  .filter-select {
-    width: 200px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
 
-  /* Marker colors */
-  .marker-green {
-    background-color: green;
-    color: black;
-  }
+/* Leaflet popup content wrapper */
+.leaflet-popup-content-wrapper {
+  background-color: #e3e3e3;
+}
 
-  .marker-yellow {
-    background-color: yellow;
-    color: black;
-  }
+/* Leaflet popup content */
+.leaflet-popup-content {
+  background-color: #e3e3e3;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 
-  .marker-red {
-    background-color: red;
-    color: white;
-  }
-  
-  /* Contact form styles */
-  .container {
-    max-width: 400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  #contact input[type="text"],
-  #contact input[type="email"],
-  #contact input[type="tel"],
-  #contact input[type="url"],
-  #contact textarea {
-    width: 100%;
-    border: 1px solid #ccc;
-    background: #FFF;
-    margin: 0 0 10px; /* Increased margin to create space between input boxes */
-    padding: 10px;
-    box-sizing: border-box; /* Ensure padding doesn't increase the width of the input boxes */
-    vertical-align: middle; /* Adjust vertical alignment */
-  }
-  
-  /* ... (other CSS styles) ... */
-  
-  /* Additional styles for the "Filter by Risk Category" dropdown */
-  .filter-container:nth-child(3) {
-    justify-content: flex-start;
-  }
+h1 {
+  font-family: Arial, sans-serif; /* Set your desired font family */
+  font-size: 50px; /* Set your desired font size */
+  color: #d0caca; /* Set your desired font color */
+  text-align: center;
+}
 
-</style>
+h2, h3, h4 {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  color: #000000;
+}
+
+/* Filters container */
+.filters-container {
+  float: right;
+  padding: 20px;
+}
+
+.filter-container label {
+  width: 50%;
+  display: block;
+  white-space: nowrap;
+}
+
+.filter-container select {
+  width: 100%;
+}
+
+#map .leaflet-container {
+  filter: grayscale(100%);
+}
+
+/* Additional styles for the contact box */
+#contact {
+  background-color: #c8c5c5;
+  opacity: 0.9;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+
+/* Additional style for the contact form inputs and textarea */
+#contact input[type="text"],
+#contact input[type="email"],
+#contact input[type="tel"],
+#contact textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+/* Additional styles for the contact form */
+#contact form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Additional styles for the contact form fieldset */
+#contact fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Additional style for the contact form button */
+#contact button[type="submit"] {
+  background-color: #a8a8a8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.legend {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.legend-item {
+  margin-bottom: 5px;
+}
+
+.filters-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #222222;
+  opacity: 0.8;
+}
+
+.filter-container label {
+  width: 50%;
+  display: block;
+  white-space: nowrap;
+  font-weight: bold; /* Add this line to make the labels bold */
+  color: #dbd8d8; /* Add this line to set the font color */
+}
+
+.filter-container select {
+  width: 100%;
+  color: #000000; /* Add this line to set the font color */
+}

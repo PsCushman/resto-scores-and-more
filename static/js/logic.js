@@ -4,15 +4,14 @@ let myMap = L.map("map", {
   zoom: 13
 });
 
-// Adding the tile layer
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+// Create the grayscale tile layer
+let grayscaleTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+  className: 'grayscale-tile-layer'
 }).addTo(myMap);
 
-// Store the API query variables.
+// Store the API query variables and create the marker cluster group
 let baseURL = "https://data.sfgov.org/resource/pyih-qa8i.json?";
-// let url = baseURL + "$$app_token=" + apiToken;
-// Create the marker cluster group
 let markers = L.markerClusterGroup();
 
 // Get the data with fetch.
@@ -139,8 +138,6 @@ fetch(baseURL)
       return div;
     };
 
-    // Add the legend control to the map
-    controlScores.addTo(myMap);
 
     // Initial marker update with all data
     updateMarkers(data);
