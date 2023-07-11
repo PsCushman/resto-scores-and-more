@@ -83,9 +83,9 @@ p {
     background: red;;
 }
 
-.viewing {
+/* .viewing {
     background: #eee;
-}
+} */
 
 section {
     padding: 5px 10px 10px 10px;
@@ -97,16 +97,17 @@ section {
         text-align: center;
 }
 
-.cluster-map-button {
+.map-button {
     background-color: #abd1c6;
     border: 1px solid #abd1c6;
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
-.cluster-map-button:hover {
-    background-color: #992831;
-    border-color: #992831;
+.map-button:hover {
+    background-color: #d1abc9;
+    border-color: #d1abc9;
+    box-shadow: 0 0 50px #d1abc9, 0 0 25px #d1abc9, 0 0 150px #d1abc9, 0 0 200px #d1abc9; /* Increase glow effect on hover */
 }
 
 .api-button {
@@ -117,6 +118,22 @@ section {
 }
 
 .api-button:hover {
-    background-color: #992831;
-    border-color: #992831;
+    background-color: #d1abc9;
+    border-color: #d1abc9;
+    box-shadow: 0 0 50px #d1abc9, 0 0 25px #d1abc9, 0 0 150px #d1abc9, 0 0 200px #d1abc9; /* Increase glow effect on hover */
+}
+
+.viewing {
+    background: #eee;
+    border: 2px solid #d1abc9; 
+    animation: pulse 0.75s infinite alternate; /* Add border animation */
+}
+
+@keyframes pulse {
+    0% {
+        border-width: 2px;
+    }
+    100% {
+        border-width: 4px;
+    }
 }

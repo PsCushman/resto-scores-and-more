@@ -25,10 +25,13 @@
             </div>
 
             <section data-place="overview" class="viewing">
-                <p>We made a lot of maps.</p>
-                <p>And when we did. We found a lot of stuff.</p>
+                <p>Welcome to our project! We are David, Leo, and Payson and we made a lot of maps.</p>
+                <p>For this project, we used:</p>
+                <p>Python and Pandas to clean data, SQL to store data and exacute queries</p>
+                <p>We also used Flask and Jinja, Leaflet and it's plug-ins, HTML, JavaScript, and CSS for styling...</p>
                 <p>First, let's look at our Cluster Map.</p>
-                <button class="cluster-map-button" onclick="window.open('https://pscushman.github.io/project-cluster-map/', '_blank')">Searchable, Filterable, Cluster Map</button>
+                <p>The leaflet plug-in did not allow for searching clustered markers so we had to create a seperate layer of invisable markers to search.</p>
+                <button class="map-button" onclick="window.open('https://pscushman.github.io/project-cluster-map/', '_blank')">Searchable, Filterable, Cluster Map</button>
             </section>
 
             <section  data-place="good_hood">
@@ -37,21 +40,21 @@
                 <p>Good Hood</p>
                 <p>Good Hood</p>
                 <p>Good Hood</p>
-                <p>Good Hood</p>
+                <button class="map-button" onclick="window.open('https://dalfonsonash.github.io/resto_choropleth/', '_blank')">Choropleth Map</button>
             </section>
 
-            <section  data-place="bad_hood">
-                <h2>The Sunset</h2>
-                <p>Bad Hood</p>
-                <p>Bad Hood</p>
-                <p>Bad Hood</p>
-                <p>Bad Hood</p>
-                <p>Bad Hood</p>
+            <section  data-place="years">
+                <h2>Over the Years...</h2>
+                <p>We took the database provided by the SF goverment and set up a map to filter data by the year, </p>
+                <p>indident type, and other stuff.</p>
+                <p>The data provided was over the years of 2016-2019</p>
+                <p>The pandemic halted inspections for awhile so there is some funky data in there</p>
+                <button class="map-button" onclick="window.open('https://lpieran.github.io/SFRestaurant_Inspection_Scores_Map/', '_blank')">Filter by Year, Score, and Incident Type</button>
             </section>
 
             <section data-place="sunflower">
                 <h2>Sunflower Restaurant</h2>
-                <p>Sunflower had the lowest avg score over this period at around 56 percent</p>
+                <p>Over that same period, Sunflower had the lowest avg score over this period at around 56 percent</p>
                 <p>Wouldn't eat here!</p>
                 <p>We used Flask to import data and convert to a DataFrame to find restaurants with high-risk incidents recently</p>
                 <p>We then used Jinja variables in HTML to use the data in JS</p>
@@ -98,8 +101,6 @@
 
         <div id="map" class="col-sm-3 col-md-5 sidebar leaflet-container leaflet-fade-anim" tabindex="0">
 
-        <!-- <div class="leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-tile-pane"><div class="leaflet-layer"><div class="leaflet-tile-container leaflet-zoom-animated" style=""></div><div class="leaflet-tile-container leaflet-zoom-animated" style=""><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/8.png" style="height: 256px; width: 256px; left: 62px; top: 218px;"><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/7.png" style="height: 256px; width: 256px; left: 62px; top: -38px;"><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/8(1).png" style="height: 256px; width: 256px; left: -194px; top: 218px;"><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/8(2).png" style="height: 256px; width: 256px; left: 318px; top: 218px;"><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/9.png" style="height: 256px; width: 256px; left: 62px; top: 474px;"><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/7(1).png" style="height: 256px; width: 256px; left: -194px; top: -38px;"><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/7(2).png" style="height: 256px; width: 256px; left: 318px; top: -38px;"><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/9(1).png" style="height: 256px; width: 256px; left: -194px; top: 474px;"><img class="leaflet-tile leaflet-tile-loaded" src="./story_map_files/9(2).png" style="height: 256px; width: 256px; left: 318px; top: 474px;"></div></div></div><div class="leaflet-objects-pane"><div class="leaflet-shadow-pane"></div><div class="leaflet-overlay-pane"></div><div class="leaflet-marker-pane"></div><div class="leaflet-popup-pane"></div></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="http://atlefren.github.io/storymap/#" title="Zoom in">+</a><a class="leaflet-control-zoom-out" href="http://atlefren.github.io/storymap/#" title="Zoom out">-</a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com/" title="A JS library for interactive maps">Leaflet</a> | © <a href="http://osm.org/copyright">OpenStreetMap</a> contributors</div></div></div></div> -->
-
     </div>
 </div>
 <script src="js/underscore-min.js"></script>
@@ -116,7 +117,7 @@
         var markers = {
             overview: {lat: 37.7749, lon: -122.4194, zoom: 12},
             good_hood: {lat: 37.7636, lon: -122.4200, zoom: 14},
-            bad_hood: {lat: 37.7467, lon: -122.4863, zoom: 14},
+            years: {lat: 37.7467, lon: -122.4863, zoom: 14},
             sunflower: {lat: 37.762647, lon: -122.397545, zoom: 14},
             lees: {lat: 37.729455, lon: -122.386364, zoom: 14},
             schools: {lat: 58.17993, lon: 8.12952, zoom: 11},
