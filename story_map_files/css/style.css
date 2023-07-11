@@ -39,6 +39,7 @@ p {
     font-size: 20px;
 }
 
+
 .sidebar {
    /* display: none;*/
 }
@@ -82,10 +83,6 @@ p {
     height: 3px;
     background: red;;
 }
-
-/* .viewing {
-    background: #eee;
-} */
 
 section {
     padding: 5px 10px 10px 10px;
