@@ -2,7 +2,7 @@
 Wash your hands you dirty animal!!!
 
 ## Deployment
-https://pscushman.github.io/story-map/
+https://pscushman.github.io/project-story-map/
 
 https://pscushman.github.io/project-cluster-map/
 
