@@ -1,6 +1,7 @@
 ![Screen Shot 2023-07-11 at 11 39 56 PM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/69feef1d-5228-4022-9880-b97592c25893)
 
-# resto-scores-and-more
+# San Francisco Restaurant Score
+A Map Making Story
 
 Wash your hands you filthy animal!!!
 
