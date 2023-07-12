@@ -41,7 +41,7 @@ We created a Story Map (see first screenshot), which allows the user to click li
 
 The Story Map also includes information gathered through SQL queries. 
 
-Before we could import the data for the quieries, we need to apply “thiccc” manipulations on the data using Python - transformations, data and date conversions, and dropping/converting null rows. Just some in screenshot below:
+Before we could import the data for the quieries, we need to apply “thiccc” manipulations on the data using Python - transformations, data and date conversions, and dropping/converting null rows. Just some of the manipulations in the screenshot below:
 
 ![Screen Shot 2023-07-12 at 8 55 27 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/c35d66c7-a99c-4d8b-8a64-4ad32f7d703b)
 
