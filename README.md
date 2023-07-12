@@ -34,9 +34,10 @@ We created a Story Map (see first screenshot), which allows the user to click li
   
 ![Screen Shot 2023-07-12 at 8 49 57 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/aab9b3aa-fd4d-4ac3-8669-b2d4caf1fd39)
 
-- Both a Heat Map and Marker Map - showing only the resurants with recent high risk incidents run through Flask and manipulated using Python and Pandas then moved through the html to JS using Jinja variables.
+- Combo Heat Map and Marker Map - showing only the resurants with recent high risk incidents run through Flask and manipulated using Python and Pandas then moved through the html to JS using Jinja variables.
   
-![Screen Shot 2023-07-12 at 8 53 04 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/86fa2472-49a9-442e-ad38-5bd87b40ac77)
+![Screen Shot 2023-07-12 at 2 24 17 PM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/c29a60d3-ad03-4451-9d93-ac54812957f7)
+
 
 The Story Map also includes information gathered through SQL queries. 
 
