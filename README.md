@@ -23,19 +23,24 @@ Our Project utilzes the San Francisco Resturant Scores provided by the SF govern
 We created a Story Map (see first screenshot), which allows the user to click links to different maps including:
 
 - A Searchable, Filterable, Cluster Map - Showing live inspection scores of each resturant in SF
-![Screen Shot 2023-07-11 at 11 39 56 PM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/8f603a24-52a2-435f-a680-6aaac0349820)
+
+![Screen Shot 2023-07-12 at 8 58 37 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/86d6843b-5b4b-4aec-84f4-2fd76f205a52)
 
 - A Choropeth Map - colorcoded using the zipcode and inspection score
+  
 ![Screen Shot 2023-07-12 at 8 50 37 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/14011ebd-8d39-43d4-88a2-491df05a59f8)
 
 - A Interactive Map - using historical data, filterable by year, risk category, and inspection score (maybe bar graphs)
+  
 ![Screen Shot 2023-07-12 at 8 49 57 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/aab9b3aa-fd4d-4ac3-8669-b2d4caf1fd39)
 
 - Both a Heat Map and Marker Map - showing only the resurants with recent high risk incidents run through Flask and manipulated using Python and Pandas then moved through the html to JS using Jinja variables.
+  
 ![Screen Shot 2023-07-12 at 8 53 04 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/86fa2472-49a9-442e-ad38-5bd87b40ac77)
+
 The Story Map also includes information gathered through SQL queries. 
 
-Before we could import the data for the quieries, we need to apply “thiccc” manipulations on the data using Python - transformations, data and date conversions, and dropping/converting null rows.
+Before we could import the data for the quieries, we need to apply “thiccc” manipulations on the data using Python - transformations, data and date conversions, and dropping/converting null rows. Just some in screenshot below:
 
 ![Screen Shot 2023-07-12 at 8 55 27 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/c35d66c7-a99c-4d8b-8a64-4ad32f7d703b)
 
@@ -44,10 +49,15 @@ The data was then imported to a SQL database and table to then preform the queri
 ![Screen Shot 2023-07-12 at 8 49 16 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/217fff1f-4c92-462c-8e77-bbf83ed46568)
 
 -- Most High Risk Incidents: -- "KING OF THAI NOODLE HOUSE", but really a bunch with 3
+
 -- Most Incidents Overall: -- Gateway High/Kip Schools 7 -- "TAQUERIA CANCUN" 6
+
 -- Who Had the most Inspections?: -- Schools and Taqeria Cancun
+
 -- Lowest AVG Score: -- "New Jumbo Seafood Restaurant"	60.5 -- "SUNFLOWER RESTAURANT"	63.5
+
 -- Which School Did the Best?: -- "Francisco Middle School"	96.4 -- "Everett Middle School"	96.16
+
 -- Which School Had the Lowest Score?: --"TENDERLOIN ELEMENTARY SCHOOL"	89.4
 
 
