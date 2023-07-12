@@ -1,0 +1,62 @@
+body {
+  background-color: #004643;
+}
+
+.jumbotron {
+  background-color: #004643;
+  padding: 40px; /* Adjust the padding value as desired */
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border: none; /* Remove the border */
+  box-shadow: none; /* Remove the box shadow */
+}
+
+.map-title {
+  text-align: center;
+  background-color: #abd1c6;
+  padding: 5px;
+  border-radius: 0px;
+  font-family: 'Heebo', sans-serif;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.title-line {
+  width: 140px;
+  height: 4px;
+  background-color: black;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+.hot-text {
+  font-family: 'Fruktur', cursive;
+  font-size: 22px;
+  color: #e16162;
+}
+
+#map {
+    height: 800px;
+  }
+
+  /* #legend {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 150px;
+    height: 50px; /* Adjust height as needed */
+   /* Adjust the vertical position as needed */
+    /* right: 20px;
+    text-align: center;
+    font-weight: b border-radius: 5px;
+    background-image: linear-gradient(to right, purple, blue, green, red);
+    z-index: 1000;
+  }
+  
+  .legend-title {
+    position: absolute;
+    bottom: 60px; old;
+    font-family: 'Heebo', sans-serif;
+    font-size: 16px;
+    color: black;
+  } */
