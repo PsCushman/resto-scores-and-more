@@ -19,7 +19,7 @@ ORDER BY total_incidents DESC
 LIMIT 5;
 
 -- Gateway High/Kip Schools 7
--- "TAQUERIA CANCUN" 6 -ate here a lot
+-- "TAQUERIA CANCUN" 6
 
 --Who Had the most Inspections?:
 SELECT business_id, business_name, COUNT(*) AS inspection_count
@@ -28,7 +28,6 @@ WHERE inspection_date BETWEEN '2016-10-04' AND '2019-10-03'
 GROUP BY business_id, business_name
 ORDER BY inspection_count DESC
 LIMIT 5;
-
 -- Schools and Taqeria Cancun
 
 -- Lowest AVG Score:
@@ -41,6 +40,29 @@ LIMIT 5;
 
 -- "New Jumbo Seafood Restaurant"	60.5000000000000000	2
 -- "SUNFLOWER RESTAURANT"	63.5000000000000000	2
+
+SELECT business_id, business_name, COUNT(*) AS lee_count
+FROM for_maps_table
+WHERE inspection_date BETWEEN '2016-10-04' AND '2019-10-03' AND (business_name) LIKE 'Lee%'
+GROUP BY business_id, business_name
+ORDER BY lee_count DESC
+LIMIT 5;
+--4 Lee's Deli Locations over that time with multiple inspections
+
+SELECT business_id, business_name, AVG(inspection_score) AS average_score
+FROM for_maps_table
+WHERE inspection_date BETWEEN '2016-10-04' AND '2019-10-03' AND (business_name) LIKE 'Lee%'
+GROUP BY business_id, business_name
+ORDER BY average_score ASC
+LIMIT 5;
+--The avg Score was not great, but not as bad as my previous queries (83.9333333333333333)
+
+SELECT business_name, AVG(inspection_score) AS average_score
+FROM for_maps_table
+WHERE inspection_date BETWEEN '2016-10-04' AND '2019-10-03' AND (business_name) LIKE 'Lee%''%Deli'
+GROUP BY business_name
+ORDER BY average_score ASC
+LIMIT 5;
 
 -- Really what we want is, lowest score and most incidents per visit:
 SELECT 
@@ -66,9 +88,10 @@ FROM (
   FROM for_maps_table
   WHERE inspection_date BETWEEN '2016-10-04' AND '2019-10-03'
   GROUP BY business_id, business_name
-  HAVING COUNT(*) > 4
+  HAVING COUNT(*) > 2
 ) AS subquery
-WHERE average_score > 90;
+WHERE average_score > 92;
+--379
 
 -- How Many where Schools?:
 SELECT COUNT(*) AS school_count
@@ -77,10 +100,10 @@ FROM (
   FROM for_maps_table
   WHERE inspection_date BETWEEN '2016-10-04' AND '2019-10-03'
   GROUP BY business_id, business_name
-  HAVING COUNT(*) > 4 AND AVG(inspection_score) > 90 AND LOWER(business_name) LIKE '%school%'
+  HAVING COUNT(*) > 2 AND AVG(inspection_score) > 92 AND LOWER(business_name) LIKE '%school%'
 ) AS subquery;
 
--- 11 of the 23 where schools
+-- 49 of the 379 where schools
 
 -- Which School Did the Best?:
 SELECT business_id, business_name, AVG(inspection_score) AS average_score
@@ -101,6 +124,7 @@ GROUP BY business_id, business_name
 HAVING COUNT(*) > 4 AND LOWER(business_name) LIKE '%school%'
 ORDER BY average_score ASC
 LIMIT 1;
+--"TENDERLOIN ELEMENTARY SCHOOL"	89.4000000000000000
 
 -- Which School Had the Most Number of High Risk Incidents?:
 SELECT business_id, business_name, COUNT(*) AS high_risk_incidents
@@ -110,4 +134,5 @@ WHERE inspection_date BETWEEN '2016-10-04' AND '2019-10-03'
   AND LOWER(business_name) LIKE '%school%'
 GROUP BY business_id, business_name
 ORDER BY high_risk_incidents DESC
-LIMIT 1;
+LIMIT 5;
+-- Lots with 2

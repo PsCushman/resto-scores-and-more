@@ -1,3 +1,8 @@
+body {
+    background-color: #004643;
+    color: black; /* Set text color to black */
+}
+
 .jumbotron {
     position: relative;
     z-index: 1000;
@@ -36,7 +41,7 @@ h1, h2 {
 /* Font styles for paragraphs */
 p {
     font-family: 'Yanone Kaffeesatz', sans-serif;
-    font-size: 20px;
+    font-size: 22px;
 }
 
 
@@ -89,48 +94,87 @@ section {
     border-radius: 10px;
 }
 
+.image-container-1 {
+    text-align: center;
+}
 
-.image-container {
+.image-container-1 .zoom-image {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.image-container-1 .zoom-image:hover {
+    transform: scale(1.3); /* Increase the scale value for more zoom effect */
+}
+
+.image-container-2 {
+    text-align: center;
+}
+
+.image-container-2 .zoom-image {
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+.image-container-2 .zoom-image:hover {
+    transform: scale(1.1); /* Increase the scale value for more zoom effect */
+}
+
+.image-container-3 {
         text-align: center;
 }
 
 .map-button {
-    background-color: #abd1c6;
-    border: 1px solid #abd1c6;
+    background-color: #f9bc60;
+    border: 1px solid #f9bc60;
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .map-button:hover {
-    background-color: #d1abc9;
-    border-color: #d1abc9;
-    box-shadow: 0 0 50px #d1abc9, 0 0 25px #d1abc9, 0 0 150px #d1abc9, 0 0 200px #d1abc9; /* Increase glow effect on hover */
+    background-color: #e16162;
+    border-color: #e16162;
+    box-shadow: 0 0 50px #e16162, 0 0 25px #e16162, 0 0 150px #e16162, 0 0 200px #e16162; /* Increase glow effect on hover */
 }
 
 .api-button {
-    background-color: #abd1c6;
-    border: 1px solid #abd1c6;
+    background-color: #f9bc60;
+    border: 1px solid #f9bc60;
     transition: background-color 0.3s ease;
     border-radius: 5px;
 }
 
 .api-button:hover {
-    background-color: #d1abc9;
-    border-color: #d1abc9;
-    box-shadow: 0 0 50px #d1abc9, 0 0 25px #d1abc9, 0 0 150px #d1abc9, 0 0 200px #d1abc9; /* Increase glow effect on hover */
+    background-color: #e16162;
+    border-color: #e16162;
+    box-shadow: 0 0 50px #e16162, 0 0 25px #e16162, 0 0 150px #e16162, 0 0 200px #e16162; /* Increase glow effect on hover */
 }
 
 .viewing {
-    background: #eee;
-    border: 2px solid #d1abc9; 
-    animation: pulse 0.75s infinite alternate; /* Add border animation */
+    background: #eff0f3;
+    border: 5px solid #f9bc60; 
+    /* animation: pulse 0.75s infinite alternate; Add border animation */
 }
 
-@keyframes pulse {
+/* @keyframes pulse {
     0% {
         border-width: 2px;
     }
     100% {
         border-width: 4px;
     }
+} */
+
+.audio-button {
+    background-color: #f9bc60;
+    border: 1px solid #f9bc60;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.audio-button:hover {
+    background-color: #e16162;
+    border-color: #e16162;
+    box-shadow: 0 0 50px #e16162, 0 0 25px #e16162, 0 0 150px #e16162, 0 0 200px #e16162; /* Increase glow effect on hover */
 }
