@@ -1,6 +1,6 @@
 ![Screen Shot 2023-07-11 at 11 39 56 PM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/69feef1d-5228-4022-9880-b97592c25893)
 
-# San Francisco Restaurant Score
+# San Francisco Restaurant Scores
 A Map Making Story by David Alfonso, Leo Pierantoni, and Payson Cushman
 
 Wash your hands you filthy animal!!!
