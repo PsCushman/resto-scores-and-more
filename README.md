@@ -119,6 +119,8 @@ References
 
 ## Resources and Refrences
 https://github.com/atlefren/storymap
+
 https://github.com/stefanocudini/leaflet-search
+
 https://www.w3schools.blog/jinja-loop-index-assembly
 
