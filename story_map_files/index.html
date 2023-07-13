@@ -35,8 +35,8 @@
             <section data-place="cluster">
                 <h2>Starting with a Cluster Map</h2>
                 <p>The first thing we did was make a cluster map. It was a nice place to begin because we had a solid example from which to jump.</p>
-                <p>The scores are color coated on the markers, and we added a search control - a plugin we had not yet used.</p>
-                <p>The marker here in the story map is relativley abitrary. It is the latitude and longitude of Benu, a fancy SF resturant that we used repeatedly to see if the search function worked.</p>
+                <p>The scores are color coded on the markers, and we added a search control - a plugin we had not yet used.</p>
+                <p>The marker here in the story map is relatively arbitrary. It is the latitude and longitude of Benu, a fancy SF restaurant that we used repeatedly to see if the search function worked.</p>
                 <p>The Leaflet plugin did not allow for searching clustered markers, so we had to create a separate layer of invisible markers to search.</p>
                 <p>You can check out both the code for the invisible markers and the map itself below.</p>
                 <img src="static/images/invisible.png" alt="Invisible Image" style="max-width: 100%; height: auto;">
@@ -46,41 +46,43 @@
             </section>
 
             <section  data-place="choropleth">
-                <h2>Frustrated by GeoJson</h2>
+                <h2>Frustrated by GeoJSON</h2>
                 <p>SF Public Health Data we used contained scores for 809 restaurants.</p>
-                <p>And not all zipcode areas were represented in city's data so we had to account for that. The marker here is set to the main post office for 94132, the zipcode with the highest avg inspection score of 90.</p>
-                <p>Coordinates from inspection score json would not plot over geojson of San Francisco.</p>
+                <p>One Zip Code area had no establishments that were represented in city's data, so we had to account for that. The marker here is set to the main post office for 94132, the Zip Code with the highest avg inspection score of 90.</p>
+                <p>Coordinates from inspection score JSON would not plot over GeoJSON of San Francisco.</p>
                 <img src="static/images/image_720.png" alt="GeoJson Image" style="max-width: 100%; height: auto;">
-                <p>So we had to convert inspection score json to geojson</p>
+                <p>Consequently, we had to convert inspection score JSON to GeoJSON</p>
                 <img src="static/images/image_721.png" alt="GeoJson2 Image" style="max-width: 100%; height: auto;">
                 <br>
                 <br>
                 <p>Finally, we got our choropleth map up and running, which you can check out by clicking on the button below!</p>
                 <button class="map-button" onclick="window.open('https://dalfonsonash.github.io/resto_choropleth/', '_blank')">Choropleth Map</button>
+    
             </section>
+            
 
             <section  data-place="years">
                 <h2>Over the Years...</h2>
-                <p>We took the database provided by the SF government for the years 2016-2019 and set up a map to filter data by the year, incident type, and score. The marker on the story map is the intersection of 16th and Valencia in the Mission, where two resturants had High Risk incidents and scores under 65.</p>
-                <p>In this map, like most others, there was a lot cooperations between the HTML, JS, and CSS.</p>
+                <p>We took the database provided by the SF government for the years 2016-2019 and set up a map to filter data by the year, incident type, and score. The marker on the story map is the intersection of 16th and Valencia in the Mission, where two restaurants had High Risk incidents and scores under 65.</p>
+                <p>In this map, like most others, there was a lot of cooperation between HTML, JS, and CSS.</p>
                 <p>To create the dropdown filters, we defined the handleFilterUpdate function, which is called when a filter dropdown value changes. The function retrieves the selected filter values, applies them to the filterData function to obtain the filtered data, and then calls updateMarkers with the filtered data to update the markers on the map.<p>
                 <p>Event listeners are attached to the filter dropdowns to trigger the handleFilterUpdate function.</p>
                 <div class="image-container-1">
                     <img src="static/images/event_listener.png" alt="EventListener Image" class="zoom-image">
                 </div>
-                <p>We had some issues with our dropdown menu actually being displayed because, by default, the menu was placed behind the map</p>
+                <p>We had some issues with our dropdown menu actually being displayed because, by default, the menu was placed behind the map.</p>
                 <div class="image-container-2">
                     <img src="static/images/z_1.png" alt="EventListener Image" class="zoom-image">
                     <img src="static/images/z_2.png" alt="EventListener Image" class="zoom-image">
                 </div>
-                <p>The key was the z-index: 1000 (seen above). It determines the stacking order of elements in the z-axis, which controls their overlapping on the screen. An element with a higher z-index appears in front of elements with lower z-index values.</p>
+                <p>The key was the z-index: 1000 (seen above). It determines the stacking order of elements on the z-axis, which controls their overlapping on the screen. An element with a higher z-index appears in front of elements with lower z-index values.</p>
                 <button class="map-button" onclick="window.open('https://lpieran.github.io/SFRestaurant_Inspection_Scores_Map/', '_blank')">Filter by Year, Score, and Incident Type</button>
             </section>
 
             <section data-place="jumbo">
                 <h2>New Jumbo Seafood and Sunflower Restaurant</h2>
-                <p>We did SQL queries to find out which resturants were the worst!</p>
-                <p>Over the period of provided data, New Jumbo Seafood (marked on the map) and Sunflower Restaurant had the lowest avg score at 60.5 and 63.5 respectivley. Both are still in operation today.</p>
+                <p>We did SQL queries to find out which restaurants were the worst!</p>
+                <p>Over the period of provided data, New Jumbo Seafood (marked on the map) and Sunflower Restaurant had the lowest avg score at 60.5 and 63.5 respectively. Both are still in operation today.</p>
                 <p>We also used Flask to take the API data and convert it into a DataFrame. Using Python and Pandas, we extracted only the restaurants with recent incidents categorized as high-risk.</p>
                 <p>First, we rendered the restaurants variable to the template:</p>
                 <img src="static/images/render_to_template.png" alt="Render Image" style="max-width: 100%; height: auto;">
@@ -88,7 +90,7 @@
                 <img src="static/images/html_jinja.png" alt="HTML_Jinja Image" style="max-width: 100%; height: auto;">
                 <p>Lastly, we accessed the restaurants variable directly in our script as a normal variable:</p>
                 <img src="static/images/js_jinja.png" alt="JS_Jinja Image" style="max-width: 100%; height: auto;">
-                <p>Check it out running on a localhost with controls to toggle between a heat map and a traditional marker map with color coated inspection scores.</p>
+                <p>Check it out running on a localhost with controls to toggle between a heat map and a traditional marker map with color coded inspection scores.</p>
                 <button class="api-button" onclick="window.open('http://127.0.0.1:5000', '_blank')">API, Flask, to Map</button>
             </section>
 
@@ -105,11 +107,11 @@
 
             <section  data-place="schools">
                 <h2>Meanwhile, Down in Lunch Lady Land...</h2>
-                <p>Look, school is important but it doesn't necessarly have the best repuation for good food.</p>
+                <p>School is important, but it doesn't necessarily have the best reputation for good food.</p>
                 <p>It may not be good, but it is safe.</p>
-                <p>We found that out of the 379 spots with what we defined as "great" inpection scores ( 2 or more inspections with an avg score over 92), 49 were schools.</p>
+                <p>We found that out of the 379 spots with what we defined as "great" inspection scores (2 or more inspections with an avg score over 92), 49 were schools.</p>
                 <p>Our queries found that Francisco Middle School with an avg score of 96.4 did the best and is marked on our story map.<p>
-                <p>In case you are wondering, Tenderloin Elementry did the worst with an avg score of 89.4.</p>
+                <p>In case you are wondering, Tenderloin Elementary did the worst with an avg score of 89.4.</p>
             </section>
 
             <section data-place="storymap">
@@ -158,11 +160,8 @@
             storymap: {lat: 37.7749, lon: -122.4194, zoom: 12},
         };
 
-        
-
         $('.main').storymap({markers: markers});
     }());
 </script><div class="breakpoint-current" style="top: 33.333%;"></div>
-
 </body>
 </html>
