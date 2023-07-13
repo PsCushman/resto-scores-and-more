@@ -15,7 +15,7 @@ https://dalfonsonash.github.io/resto_choropleth/
 https://lpieran.github.io/SFRestaurant_Inspection_Scores_Map/
 
 The Story Map will lead the way...
-To see the Flask heat and marker combo, you will need to download those the directory for_flask_combo and run them on a localhost http://127.0.0.1:5000/.
+To see the Flask heat and marker combo, you will need to download those the directory for_flask_combo and run them on localhost (http://127.0.0.1:5000/).
 
 ## Overview
 Our Project utilizes the San Francisco Restaurant Scores provided by the SF government at https://datasf.org/opendata/. We utilized both historical data, stored downloaded to a csv and live data gathered through API calls.
