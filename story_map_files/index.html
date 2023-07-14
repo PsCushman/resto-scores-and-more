@@ -48,12 +48,13 @@
             <section  data-place="choropleth">
                 <h2>Frustrated by GeoJSON</h2>
                 <p>SF Public Health Data we used contained scores for 809 restaurants.</p>
-                <p>One Zip Code area had no establishments that were represented in city's data, so we had to account for that. The marker here is set to the main post office for 94132, the Zip Code with the highest avg inspection score of 90.</p>
-                <p>Coordinates from inspection score JSON would not plot over GeoJSON of San Francisco.</p>
-                <img src="static/images/image_720.png" alt="GeoJson Image" style="max-width: 100%; height: auto;">
-                <p>Consequently, we had to convert inspection score JSON to GeoJSON</p>
-                <img src="static/images/image_721.png" alt="GeoJson2 Image" style="max-width: 100%; height: auto;">
+                <p>The marker here is on Lombard St. because it was a long and crooked journey to get this one to work.</p>
+                <p>Coordinates from inspection score JSON would not plot over the GeoJSON for San Francisco neighborhoods.</p>
+                <img src="static/images/turf_image1.png" alt="Turf Image" style="max-width: 100%; height: auto;">
+                <p>The turf library was used to perform spatial calculations. We used two different datasets. One contained the geometry coordinates and the other the point coordinates for the businesses.</p>
+                <img src="static/images/turf_image2.png" alt="Turf2 Image" style="max-width: 100%; height: auto;">
                 <br>
+                <p>Inside the JavaScript code, we used Turf.js to check if the business coordinates fell within any neighborhood's coordinates. This was done using the turf.booleanPointInPolygon function.</p>
                 <br>
                 <p>Finally, we got our choropleth map up and running, which you can check out by clicking on the button below!</p>
                 <button class="map-button" onclick="window.open('https://dalfonsonash.github.io/resto_choropleth/', '_blank')">Choropleth Map</button>
@@ -63,7 +64,8 @@
 
             <section  data-place="years">
                 <h2>Over the Years...</h2>
-                <p>We took the database provided by the SF government for the years 2016-2019 and set up a map to filter data by the year, incident type, and score. The marker on the story map is the intersection of 16th and Valencia in the Mission, where two restaurants had High Risk incidents and scores under 65.</p>
+                <p>We took the database provided by the SF government for the years 2016-2019 and set up a map to filter data by the year, incident type, and score. Inaddition, we included a bar graph detailing the number of each inspection type, which updates as the user engages with the filters.</p> 
+                <p>The marker on the story map is the intersection of 16th and Valencia in the Mission, where two restaurants had High Risk incidents and scores under 65.</p>
                 <p>In this map, like most others, there was a lot of cooperation between HTML, JS, and CSS.</p>
                 <p>To create the dropdown filters, we defined the handleFilterUpdate function, which is called when a filter dropdown value changes. The function retrieves the selected filter values, applies them to the filterData function to obtain the filtered data, and then calls updateMarkers with the filtered data to update the markers on the map.<p>
                 <p>Event listeners are attached to the filter dropdowns to trigger the handleFilterUpdate function.</p>
@@ -152,8 +154,8 @@
         var markers = {
             overview: {lat: 37.7749, lon: -122.4194, zoom: 12},
             cluster: {lat: 37.7854,  lon: -122.3992, zoom: 14},
-            choropleth: {lat: 37.732988990, lon: -122.4907422, zoom: 13},
-            years: {lat: 37.76497419765, lon: -122.421648132, zoom: 13},
+            choropleth: {lat: 37.8023, lon: -122.418892, zoom: 17.5},
+            years: {lat: 37.76497419764, lon: -122.42164814, zoom: 13},
             jumbo: {lat: 37.754132, lon: -122.480058, zoom: 13},
             lees: {lat: 37.793996, lon: -122.400096, zoom: 14},
             schools: {lat: 37.804368, lon: -122.411617, zoom: 14},
