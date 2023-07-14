@@ -1,7 +1,7 @@
 body {
   padding: 0;
   margin: 0;
-  background-color: #000000;
+  background-color: #252525;
 }
 
 #map,
@@ -15,16 +15,21 @@ html {
   height: 600px; /* Adjust the height as desired */
   width: 85%;
   margin: 0 auto; /* Center the map horizontally */
-}
-
-#map {
   position: relative;
 }
 
+#chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 95%; /* Set the width to match the map */
+}
+
+/* Leaflet grayscale tile layer */
 .grayscale-tile-layer {
   filter: grayscale(100%);
 }
-
 
 /* Leaflet popup content wrapper */
 .leaflet-popup-content-wrapper {
@@ -43,13 +48,15 @@ html {
 }
 
 h1 {
-  font-family: Arial, sans-serif; /* Set your desired font family */
-  font-size: 50px; /* Set your desired font size */
-  color: #d0caca; /* Set your desired font color */
+  font-family: Arial, sans-serif;
+  font-size: 50px;
+  color: #d0caca;
   text-align: center;
 }
 
-h2, h3, h4 {
+h2,
+h3,
+h4 {
   font-family: Arial, sans-serif;
   font-size: 18px;
   color: #000000;
@@ -69,59 +76,6 @@ h2, h3, h4 {
 
 .filter-container select {
   width: 100%;
-}
-
-#map .leaflet-container {
-  filter: grayscale(100%);
-}
-
-/* Additional styles for the contact box */
-#contact {
-  background-color: #c8c5c5;
-  opacity: 0.9;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 4px;
-}
-
-/* Additional style for the contact form inputs and textarea */
-#contact input[type="text"],
-#contact input[type="email"],
-#contact input[type="tel"],
-#contact textarea {
-  width: 100%;
-  border: 1px solid #ccc;
-  background: #fff;
-  margin-bottom: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-  vertical-align: middle;
-}
-
-/* Additional styles for the contact form */
-#contact form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Additional styles for the contact form fieldset */
-#contact fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
-/* Additional style for the contact form button */
-#contact button[type="submit"] {
-  background-color: #a8a8a8;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 .legend {
@@ -148,11 +102,16 @@ h2, h3, h4 {
   width: 50%;
   display: block;
   white-space: nowrap;
-  font-weight: bold; /* Add this line to make the labels bold */
-  color: #dbd8d8; /* Add this line to set the font color */
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .filter-container select {
   width: 100%;
-  color: #000000; /* Add this line to set the font color */
+  color: #000000;
 }
+
+.bar-label {
+  font-size: 6px; /* Increase the font size for bar labels */
+}
+

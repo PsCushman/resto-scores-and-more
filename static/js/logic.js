@@ -28,7 +28,7 @@ fetch(baseURL)
         // Check if the restaurant matches the selected year, inspection score range, and risk category
         const yearMatch = year === "All" || inspectionYear === year;
         const scoreMatch =
-          (scoreRange === "All") || // Include the condition for "All" inspection scores
+          (scoreRange === "All") ||
           (scoreRange === "90+" && inspectionScore >= 90 && inspectionScore <= 100) ||
           (scoreRange === "89-80" && inspectionScore >= 80 && inspectionScore <= 89) ||
           (scoreRange === "79-70" && inspectionScore >= 70 && inspectionScore <= 79) ||
@@ -44,7 +44,6 @@ fetch(baseURL)
       markers.clearLayers(); // Clear existing markers
 
       data.forEach(restaurant => {
-        // Get the latitude and longitude
         let latitude = parseFloat(restaurant.business_latitude);
         let longitude = parseFloat(restaurant.business_longitude);
         let inspectionScore = restaurant.inspection_score;
@@ -59,9 +58,7 @@ fetch(baseURL)
           scoreColor = 'red';
         }
 
-        // Check for valid latitude and longitude
         if (!isNaN(latitude) && !isNaN(longitude)) {
-          // Create a marker and bind a popup
           let marker = L.marker([latitude, longitude])
             .bindPopup(`<div style="text-align: center;">
                          <strong style="font-size: 14px;">${restaurant.business_name}</strong><br>
@@ -71,12 +68,10 @@ fetch(baseURL)
                          <strong>VIOLATION DESCRIPTION:</strong><br>
                          ${restaurant.violation_description}
                        </div>`);
-          // Add the marker to the cluster group
           markers.addLayer(marker);
         }
       });
 
-      // Add the marker cluster group to the map
       myMap.addLayer(markers);
     }
 
@@ -87,6 +82,7 @@ fetch(baseURL)
       const selectedRiskCategory = document.getElementById("risk-category-filter").value;
       const filteredData = filterData(data, selectedYear, selectedScoreRange, selectedRiskCategory);
       updateMarkers(filteredData);
+      updateChart(filteredData); // Call the function to update the chart
     }
 
     // Populate the year filter dropdown
@@ -108,7 +104,6 @@ fetch(baseURL)
       var div = L.DomUtil.create('div', 'info legend');
       div.innerHTML += '<h4>Filter by Score</h4>';
 
-      // Define the score ranges
       var scoreRanges = [
         { color: 'green', min: 90, max: Infinity },
         { color: 'yellow', min: 80, max: 89 },
@@ -116,7 +111,6 @@ fetch(baseURL)
         { color: 'gray', min: 'Unrated', max: 'Unrated' }
       ];
 
-      // Iterate through the score ranges and create checkboxes with labels
       scoreRanges.forEach(range => {
         var label;
         if (range.min === 'Unrated' && range.max === 'Unrated') {
@@ -138,7 +132,128 @@ fetch(baseURL)
       return div;
     };
 
-
-    // Initial marker update with all data
-    updateMarkers(data);
+    updateMarkers(data); // Initial marker update with all data
+    updateChart(data); // Initial chart update with all data
   });
+
+// Function to create and update the chart
+function updateChart(data) {
+  // Count the occurrences of each inspection type
+  const inspectionTypesCount = data.reduce((count, restaurant) => {
+    const inspectionType = restaurant.inspection_type;
+    count[inspectionType] = (count[inspectionType] || 0) + 1;
+    return count;
+  }, {});
+
+  // Convert the inspection types count object into an array of objects
+  const inspectionTypesData = Object.entries(inspectionTypesCount).map(([type, count]) => ({ type, count }));
+
+  // Get the width of the map container
+  const mapContainerWidth = document.getElementById("map").clientWidth;
+
+  // Set up the chart dimensions and margins
+  const width = mapContainerWidth;
+  const height = 600;
+  const margin = { top: 60, right: 0, bottom: 250, left: 200 };
+  const chartWidth = width - margin.left - margin.right;
+  const chartHeight = height - margin.top - margin.bottom;
+
+  // Remove existing chart container content
+  d3.select("#chart-container").html("");
+
+  // Create the chart SVG container
+  const svg = d3.select("#chart-container")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+  // Add the chart title
+  svg.append("text")
+    .attr("x", chartWidth / 2)
+    .attr("y", -30)
+    .attr("text-anchor", "middle")
+    .style("font-size", "35px")
+    .style("font-weight", "bold")
+    .style("fill", "white") // Updated font color
+    .text("Inspection Types");
+
+  // Create the x-scale
+  const xScale = d3.scaleBand()
+    .domain(inspectionTypesData.map(d => d.type))
+    .range([0, chartWidth])
+    .padding(0.2);
+
+  // Create the y-scale
+  const yScale = d3.scaleLinear()
+    .domain([0, d3.max(inspectionTypesData, d => d.count)])
+    .range([chartHeight, 0]);
+
+  // Create the x-axis
+  const xAxis = d3.axisBottom(xScale)
+    .tickSize(1)
+    .tickPadding(10);
+
+  // Create the y-axis
+  const yAxis = d3.axisLeft(yScale)
+    .tickSize(-chartWidth)
+    .tickPadding(10);
+
+  // Add the x-axis to the chart
+  svg.append("g")
+    .attr("transform", `translate(0, ${chartHeight})`)
+    .call(xAxis)
+    .selectAll("text")
+    .attr("transform", "rotate(-45)")
+    .attr("text-anchor", "end")
+    .attr("dx", "-0.8em")
+    .attr("dy", "0.15em")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .style("color", "#d0caca");
+
+  // Add the y-axis to the chart
+  svg.append("g")
+    .call(yAxis)
+    .selectAll("text")
+    .style("font-size", "15px")
+    .style("font-weight", "bold")
+    .style("color", "#d0caca");
+
+  // Add the bars to the chart
+  svg.selectAll("rect")
+    .data(inspectionTypesData)
+    .enter()
+    .append("rect")
+    .attr("x", d => xScale(d.type))
+    .attr("y", d => yScale(d.count))
+    .attr("width", xScale.bandwidth())
+    .attr("height", d => chartHeight - yScale(d.count))
+    .attr("fill", "slategray")
+    .style("opacity", 0)
+    .transition()
+    .duration(800)
+    .attr("y", d => yScale(d.count))
+    .attr("height", d => chartHeight - yScale(d.count))
+    .style("opacity", 1)
+    .style("color", "#d0caca");
+
+  // Add labels to the bars
+  svg.selectAll(".bar-label")
+    .data(inspectionTypesData)
+    .enter()
+    .append("text")
+    .attr("class", "bar-label")
+    .attr("x", d => xScale(d.type) + xScale.bandwidth() / 2)
+    .attr("y", d => yScale(d.count) - 5)
+    .attr("text-anchor", "middle")
+    .style("font-size", "18px")
+    .style("fill", "white")
+    .style("opacity", 0)
+    .transition()
+    .duration(800)
+    .attr("y", d => yScale(d.count) - 15)
+    .style("opacity", 1)
+    .text(d => d.count);
+}
