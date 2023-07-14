@@ -28,7 +28,8 @@ We created a Story Map (see first screenshot), which allows the user to click li
 
 - A Choropleth Map - color coded through a SF Neighborhood GeoJSON and avg inspection scores using turf.js library to perform spatial calculations.
   
-![Screen Shot 2023-07-12 at 8 50 37 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/14011ebd-8d39-43d4-88a2-491df05a59f8)
+![Screen Shot 2023-07-14 at 8 45 44 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/27b6b3f8-065c-4b84-96ff-0b0370500ca6)
+
 
 - An Interactive Map - using historical data, filterable by year, risk category, and inspection score (maybe bar graphs).
   
