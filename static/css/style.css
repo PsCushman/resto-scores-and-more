@@ -39,10 +39,7 @@ body {
     height: auto;
   }
 
-  .legend-image img {
-    width: 100%;
-    height: auto;
-  }
+  
   .score {
     background-color: #4CAF50; /* Green */
     color: white;

@@ -129,36 +129,36 @@ d3.json("https://data.sfgov.org/resource/6ia5-2f8k.json").then(function(neighbor
         
         // Update the popupContent to include business count, highest score, and lowest score with their respective business names
         popupContent += "<br>Business Count: " + businessCount; // Add business count to the popup
-        if (highestScore !== -Infinity) {
-          popupContent += "<br>Highest Score: <span class='highest-score'>" + highestScore + "</span> (Business: " + highestBusiness + ")"; // Add highest score and business name
-        } else {
-          popupContent += "<br>Highest Score: N/A";
-        }
-        if (lowestScore !== Infinity) {
-          popupContent += "<br>Lowest Score: <span class='lowest-score'>" + lowestScore + "</span> (Business: " + lowestBusiness + ")"; // Add lowest score and business name
-        } else {
-          popupContent += "<br>Lowest Score: N/A";
-        }
-        layer.bindPopup(popupContent);
-        // Create a hover event for the layer
-    layer.on({
-      mouseover: function (e) {
-        // Open the hover popup when the mouse enters the layer
-        this.openPopup();
-      },
-      mouseout: function (e) {
-        // Close the hover popup when the mouse leaves the layer
-        this.closePopup();
-      },
-      click: function (e) {
+        popupContent += "<br>Highest Score: <span class='highest-score score'>" + (highestScore !== -Infinity ? highestScore : "N/A") + "</span> (Business: " + (highestBusiness !== "" ? highestBusiness : "N/A") + ")"; // Add highest score and business name
+        popupContent += "<br>Lowest Score: <span class='lowest-score score'>" + (lowestScore !== Infinity ? lowestScore : "N/A") + "</span> (Business: " + (lowestBusiness !== "" ? lowestBusiness : "N/A") + ")"; // Add lowest score and business name
+        
+        layer.bindPopup(popupContent, {
+          closeButton: true // Enable the default close button
+        });
+        
+        layer.on("click", function () {
+          // Log the feature data
           console.log("Feature:", feature);
           console.log("Average Inspection Score:", score);
           console.log("Business Count:", businessCount);
           console.log("Highest Score:", highestScore, "(Business:", highestBusiness + ")");
           console.log("Lowest Score:", lowestScore, "(Business:", lowestBusiness + ")");
+        });
+        
+        layer.on("popupclose", function () {
+          layer.setStyle({
+            weight: 1 // Reset the layer style when the popup is closed
+          });
+        });
+        
+        layer.on("popupopen", function () {
+          layer.setStyle({
+            weight: 3 // Increase the layer weight when the popup is opened
+          });
+        });
       }
-    });
-   }
+     
+      
   }).addTo(myMap);
 
     // Set up the legend
