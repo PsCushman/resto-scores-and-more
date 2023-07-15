@@ -20,18 +20,18 @@ To see the Flask heat and marker combo map, you will need to download the for_fl
 ## Overview
 Our Project utilizes the San Francisco Restaurant Scores provided by the SF government at https://datasf.org/opendata/. We utilized both historical data, stored downloaded to a csv and live data gathered through API calls.
 
-We created a Story Map (see first screenshot), which allows the user to click links to different maps including:
+We created a Story Map and it uses a jQuery plugin not shown in class (see first screenshot). It allows the user to click links to different maps including:
 
-- A Searchable, Filterable, Cluster Map - Showing live inspection scores of each restaurant in SF.
+- A Searchable, Filterable, Cluster Map - Showing live inspection scores of each restaurant in SF. We used a Leaflet Search Control, a JavaScript library not shown in class. 
 
 ![Screen Shot 2023-07-12 at 8 58 37 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/86d6843b-5b4b-4aec-84f4-2fd76f205a52)
 
-- A Choropleth Map - color coded through a SF Neighborhood GeoJSON and avg inspection scores using turf.js library to perform spatial calculations.
+- A Choropleth Map - color coded through a SF Neighborhood GeoJSON and avg inspection scores using turf.js library to perform spatial calculations, which was another JavaScript library not shown in class.
   
 ![Screen Shot 2023-07-14 at 8 45 44 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/27b6b3f8-065c-4b84-96ff-0b0370500ca6)
 
 
-- An Interactive Map - using historical data, filterable by year, risk category, and inspection score (maybe bar graphs).
+- An Interactive Map - using historical data, filterable by year, risk category, and inspection score. It also includes a bar graph detailing the number of each inspection type, which updates as the user engages with the filters.
   
 ![Screen Shot 2023-07-12 at 8 49 57 AM](https://github.com/PsCushman/resto-scores-and-more/assets/122395437/aab9b3aa-fd4d-4ac3-8669-b2d4caf1fd39)
 
@@ -61,7 +61,6 @@ The data was then imported to a SQL database and table to then preform the queri
 -- School with Best Avg Score: -- "Francisco Middle School"	96.4 -- "Everett Middle School"	96.16
 
 -- School with Lowest Score: --"TENDERLOIN ELEMENTARY SCHOOL"	89.4
-
 
 ## Project Rubric
 Data and Delivery (25 points)
