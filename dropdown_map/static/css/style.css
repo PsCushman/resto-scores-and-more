@@ -1,0 +1,117 @@
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #252525;
+}
+
+#map,
+body,
+html {
+  height: 100%;
+}
+
+/* Map container */
+#map {
+  height: 600px; /* Adjust the height as desired */
+  width: 85%;
+  margin: 0 auto; /* Center the map horizontally */
+  position: relative;
+}
+
+#chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 95%; /* Set the width to match the map */
+}
+
+/* Leaflet grayscale tile layer */
+.grayscale-tile-layer {
+  filter: grayscale(100%);
+}
+
+/* Leaflet popup content wrapper */
+.leaflet-popup-content-wrapper {
+  background-color: #e3e3e3;
+}
+
+/* Leaflet popup content */
+.leaflet-popup-content {
+  background-color: #e3e3e3;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+h1 {
+  font-family: Arial, sans-serif;
+  font-size: 50px;
+  color: #d0caca;
+  text-align: center;
+}
+
+h2,
+h3,
+h4 {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  color: #000000;
+}
+
+/* Filters container */
+.filters-container {
+  float: right;
+  padding: 20px;
+}
+
+.filter-container label {
+  width: 50%;
+  display: block;
+  white-space: nowrap;
+}
+
+.filter-container select {
+  width: 100%;
+}
+
+.legend {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.legend-item {
+  margin-bottom: 5px;
+}
+
+.filters-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #222222;
+  opacity: 0.8;
+}
+
+.filter-container label {
+  width: 50%;
+  display: block;
+  white-space: nowrap;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.filter-container select {
+  width: 100%;
+  color: #000000;
+}
+
+.bar-label {
+  font-size: 6px; /* Increase the font size for bar labels */
+}
+
