@@ -64,7 +64,7 @@
 
             <section  data-place="years">
                 <h2>Over the Years...</h2>
-                <p>We took the database provided by the SF government for the years 2016-2019 and set up a map to filter data by the year, incident type, and score. Inaddition, we included a bar graph detailing the number of each inspection type, which updates as the user engages with the filters.</p> 
+                <p>We took the database provided by the SF government for the years 2016-2019 and set up a map to filter data by the year, incident type, and score. In addition, we included a bar graph detailing the number of each inspection type, which updates as the user engages with the filters.</p> 
                 <p>The marker on the story map is the intersection of 16th and Valencia in the Mission, where two restaurants had High Risk incidents and scores under 65.</p>
                 <p>In this map, like most others, there was a lot of cooperation between HTML, JS, and CSS.</p>
                 <p>To create the dropdown filters, we defined the handleFilterUpdate function, which is called when a filter dropdown value changes. The function retrieves the selected filter values, applies them to the filterData function to obtain the filtered data, and then calls updateMarkers with the filtered data to update the markers on the map.<p>
@@ -74,8 +74,8 @@
                 </div>
                 <p>We had some issues with our dropdown menu actually being displayed because, by default, the menu was placed behind the map.</p>
                 <div class="image-container-2">
-                    <img src="static/images/z_1.png" alt="EventListener Image" class="zoom-image">
-                    <img src="static/images/z_2.png" alt="EventListener Image" class="zoom-image">
+                    <img src="static/images/z_1.png" alt="ZScale Image" class="zoom-image">
+                    <img src="static/images/z_2.png" alt="ZScale Image" class="zoom-image">
                 </div>
                 <p>The key was the z-index: 1000 (seen above). It determines the stacking order of elements on the z-axis, which controls their overlapping on the screen. An element with a higher z-index appears in front of elements with lower z-index values.</p>
                 <button class="map-button" onclick="window.open('https://lpieran.github.io/SFRestaurant_Inspection_Scores_Map/', '_blank')">Filter by Year, Score, and Incident Type</button>
