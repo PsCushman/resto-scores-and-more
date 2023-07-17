@@ -102,7 +102,7 @@
                     <img src="static/images/lees.png" alt="Lee's Restaurant">
                 </div>
                 <p>In our first SQL searches, we found that Lee's had the most high-risk incidents. However, we did not include the business ID, and because Lee's had multiple locations, it seemed worse than it was.</p>
-                <p>Once we fixed this and used both the business name and business ID to filter restaurants, we found that Lee's had 4 locations, with an average score of approximately 83.9.</p>
+                <p>Once we fixed this with a composite key and used both the business name and business ID to filter restaurants, we found that Lee's had 4 locations, with an average score of approximately 83.9.</p>
                 <p>We still had an issue when accounting for incident counts once we added business IDs.</p>
                 <p>For instance, Taqueria Cancun, where one of us used to eat a lot circa 2008, had 6 incidents, but it also had the most inspections of any non-school over the period. Once we adjusted for incidents per inspection date, we found that there was only one recorded incident per visit for every foodservice establishment.</p>
             </section>
@@ -155,7 +155,7 @@
             overview: {lat: 37.7749, lon: -122.4194, zoom: 12},
             cluster: {lat: 37.7854,  lon: -122.3992, zoom: 14},
             choropleth: {lat: 37.8023, lon: -122.418892, zoom: 17.5},
-            years: {lat: 37.76497419764, lon: -122.42164814, zoom: 13},
+            years: {lat: 37.76497419764, lon: -122.42164814, zoom: 16},
             jumbo: {lat: 37.754132, lon: -122.480058, zoom: 13},
             lees: {lat: 37.793996, lon: -122.400096, zoom: 14},
             schools: {lat: 37.804368, lon: -122.411617, zoom: 14},
