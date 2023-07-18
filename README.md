@@ -54,7 +54,7 @@ The data was then imported to a SQL database and table to then preform the queri
 
 -- Most Incidents Overall: -- Gateway High/Kip Schools 7 -- "TAQUERIA CANCUN" 6
 
--- Most Inspections: -- Schools and Taqueria Cancun
+-- Most Inspections: -- Schools and Taqueria Cancun (It does beg the question... why so many inspections???)
 
 -- Lowest AVG Score: -- "New Jumbo Seafood Restaurant"	60.5 -- "SUNFLOWER RESTAURANT"	63.5
 
